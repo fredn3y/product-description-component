@@ -13,7 +13,7 @@ export class ProductDescription extends HTMLElement {
     this._shadow = this.attachShadow({ mode: 'open' });
     this._content = {};
     this._error = null;
-    this._theme = 'default';
+    this._theme = 'feature-heavy';
     this.render();
   }
 
@@ -33,7 +33,7 @@ export class ProductDescription extends HTMLElement {
   }
 
   private isValidTheme(theme: string | null): theme is ThemeName {
-    return theme !== null && ['default', 'modern', 'minimal', 'dark', 'elegant', 'feature-heavy'].includes(theme);
+    return theme !== null && ['feature-heavy', 'simple'].includes(theme);
   }
 
   private generateSchema(): string {

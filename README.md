@@ -1,161 +1,175 @@
 # Product Description Component
 
-A customizable web component for product descriptions with multiple themes and styling options.
+A customizable web component for creating beautiful product descriptions with multiple themes. Built with TypeScript and modern web standards.
 
-## Installation
+## Features
+
+- 🎨 Multiple themes (Default, Modern, Minimal, Dark, Elegant, Feature-Heavy)
+- 📱 Fully responsive design
+- 🎯 SEO-friendly with Schema.org markup
+- 🔄 Easy to customize with CSS variables
+- 🌐 Works with any web framework or vanilla HTML
+- 🎯 Zero dependencies
+- 📦 Small bundle size
+- 🔒 Type-safe with TypeScript
+
+## Quick Start
+
+Add this code to your HTML file:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/dist/product-description.min.js"></script>
-```
+<!-- Component styles -->
+<style>
+    product-description {
+        /* Colors - these will inherit from your site's colors */
+        --pd-title-color: inherit;
+        --pd-description-color: inherit;
+        --pd-features-color: inherit;
+    }
+</style>
 
-## Usage
+<!-- Component script -->
+<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component/dist/product-description.min.js"></script>
 
-```html
+<!-- Use the component -->
 <product-description
-    title="Product Name"
-    description="Product description goes here"
-    features='["Feature 1", "Feature 2", "Feature 3"]'
-    image-url="path/to/image.jpg"
-    theme="modern">
+    title="Your Product Title"
+    description="Your product description"
+    data='{"productName":"Product Name","introduction":"Product introduction...","productHighlights":{},"specifications":{},"contents":{"quantity":1,"colors":[]}}'
+    theme="feature-heavy">
 </product-description>
 ```
-
-## Global Styling
-
-You can set styles for all product description components on your page using the `setGlobalStyles` method:
-
-```html
-<script>
-    ProductDescription.setGlobalStyles({
-        fontFamily: "'Roboto', sans-serif",
-        titleColor: "#2563eb",
-        titleFontSize: "32px",
-        descriptionColor: "#4b5563",
-        descriptionFontSize: "16px",
-        featuresColor: "#374151"
-    });
-</script>
-```
-
-To reset global styles:
-```html
-<script>
-    ProductDescription.resetGlobalStyles();
-</script>
-```
-
-### Available Global Style Options
-
-| Option | Type | Description |
-|--------|------|-------------|
-| fontFamily | string | Main font family for all text |
-| titleColor | string | Color for titles |
-| titleFontSize | string | Font size for titles (with units) |
-| descriptionColor | string | Color for description text |
-| descriptionFontSize | string | Font size for descriptions (with units) |
-| featuresColor | string | Color for feature items |
 
 ## Themes
 
-The component comes with several built-in themes:
+The component comes with six built-in themes:
 
-1. **modern** - Sleek design with subtle shadows and gradients
-2. **elegant** - Sophisticated layout with serif typography
-3. **minimal** - Clean, borderless design with understated typography
-4. **dark** - Dark mode with light text and blue accents
-5. **default** - Simple and clean design
-6. **feature-heavy** - Detailed layout emphasizing product features
+1. `default` - Clean and simple layout
+2. `modern` - Contemporary design with subtle shadows
+3. `minimal` - Minimalistic design focusing on content
+4. `dark` - Dark mode optimized theme
+5. `elegant` - Sophisticated design with serif fonts
+6. `feature-heavy` - Rich layout with sections for highlights, specifications, and contents
 
-## Attributes
+## Customization
 
-| Attribute | Type | Description | Required |
-|-----------|------|-------------|----------|
-| title | String | The product title | Yes |
-| description | String | The main product description | Yes |
-| features | JSON String | Array of features | No |
-| image-url | String | URL to the product image | No |
-| theme | String | Theme name (default, modern, minimal, dark, elegant, feature-heavy) | No |
-| price | String | Product price | No |
-| currency | String | Currency code (USD, EUR, etc.) | No |
+### CSS Variables
 
-## CSS Variables
+Customize the appearance using CSS variables:
 
-The component also supports individual customization through CSS variables:
-
-| CSS Variable | Default Value | Description |
-|-------------|---------------|-------------|
-| --pd-font-family | system-ui, -apple-system, sans-serif | Main font family |
-| --pd-max-width | 800px | Maximum width of the component |
-| --pd-padding | 20px | Outer padding |
-| --pd-content-padding | 20px | Inner content padding |
-| --pd-image-max-height | 400px | Maximum height of product image |
-| --pd-title-color | inherit | Title text color |
-| --pd-title-font-size | inherit | Title font size |
-| --pd-title-font-weight | inherit | Title font weight |
-| --pd-description-color | inherit | Description text color |
-| --pd-description-font-size | 16px | Description font size |
-| --pd-description-line-height | 1.6 | Description line height |
-| --pd-features-color | inherit | Features text color |
-| --pd-error-color | #dc2626 | Error message text color |
-| --pd-error-bg | #fee2e2 | Error message background color |
-
-### Example of CSS Variable Usage
-
-```html
-<style>
-  product-description {
-    --pd-font-family: 'Roboto', sans-serif;
-    --pd-title-color: #2563eb;
-    --pd-description-color: #4b5563;
-    --pd-features-color: #374151;
-  }
-</style>
-
-<product-description
-    title="Premium Wireless Headphones"
-    description="Experience crystal-clear audio with our premium wireless headphones."
-    features='["Active Noise Cancellation", "30-hour Battery Life", "Bluetooth 5.0"]'
-    image-url="headphones.jpg"
-    theme="modern">
-</product-description>
+```css
+product-description {
+    /* Font family */
+    --pd-font-family: 'Your Font', sans-serif;
+    
+    /* Colors */
+    --pd-title-color: #1a1a1a;
+    --pd-description-color: #4a4a4a;
+    --pd-features-color: #4a4a4a;
+    
+    /* Sizes */
+    --pd-title-font-size: 24px;
+    --pd-description-font-size: 16px;
+    
+    /* Weights */
+    --pd-title-font-weight: 600;
+    
+    /* Container */
+    --pd-max-width: 800px;
+    --pd-padding: 20px;
+}
 ```
 
-## Examples
+### Data Structure
 
-### Modern Theme with Global Styles
-```html
-<!-- Set global styles first -->
-<script>
-    ProductDescription.setGlobalStyles({
-        fontFamily: "'Poppins', sans-serif",
-        titleColor: "#2563eb",
-        titleFontSize: "32px"
-    });
-</script>
+The component accepts a JSON data structure through the \`data\` attribute:
 
-<!-- Then use components -->
-<product-description
-    title="Premium Wireless Headphones"
-    description="Experience crystal-clear audio with our premium wireless headphones."
-    features='["Active Noise Cancellation", "30-hour Battery Life", "Bluetooth 5.0"]'
-    image-url="headphones.jpg"
-    theme="modern">
-</product-description>
-
-<product-description
-    title="Gaming Mouse"
-    description="Professional gaming mouse with RGB lighting."
-    features='["16,000 DPI Sensor", "RGB Lighting", "8 Programmable Buttons"]'
-    image-url="mouse.jpg"
-    theme="dark">
-</product-description>
+```json
+{
+    "productName": "Product Name",
+    "introduction": "Product introduction text...",
+    "productHighlights": {
+        "feature1": {
+            "title": "Feature Title",
+            "description": "Feature description",
+            "image": "feature-image-url"
+        }
+    },
+    "specifications": {
+        "material": "Material type",
+        "dimensions": "Product dimensions",
+        "weight": "Product weight"
+    },
+    "contents": {
+        "quantity": 1,
+        "colors": ["Color 1", "Color 2"]
+    }
+}
 ```
+
+## Development
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/fredn3y/product-description-component.git
+   cd product-description-component
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start development server:
+   ```bash
+   npm run dev
+   ```
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run test` - Run tests
+- `npm run lint` - Lint code
+- `npm run format` - Format code
+
+### Building
+
+To build the component for production:
+
+```bash
+npm run build
+```
+
+The built files will be in the `dist` directory:
+- `product-description.min.js` - Minified UMD build
+- `product-description.es.js` - ES module build
 
 ## Browser Support
 
-This component uses standard web components APIs and works in all modern browsers that support Custom Elements v1.
+The component works in all modern browsers that support Web Components:
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Opera (latest)
 
 ## License
 
-MIT
+MIT License - feel free to use in your projects.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
   

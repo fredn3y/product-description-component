@@ -1,16 +1,7 @@
-import { defaultTheme } from './default';
-import { modernTheme } from './modern';
-import { minimalTheme } from './minimal';
-import { darkTheme } from './dark';
-import { elegantTheme } from './elegant';
 import { featureHeavyTheme } from './feature-heavy';
-import type { ThemeStyles } from '../types';
+import { simpleTheme } from './simple';
 
-export const themes: ThemeStyles = {
-  default: defaultTheme,
-  modern: modernTheme,
-  minimal: minimalTheme,
-  dark: darkTheme,
-  elegant: elegantTheme,
+export const themes: { [key: string]: string } = {
   'feature-heavy': featureHeavyTheme,
+  'simple': simpleTheme
 }; 
