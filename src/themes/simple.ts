@@ -1,16 +1,4 @@
 export const simpleTheme = `
-  /* Reset base styles */
-  :host {
-    all: initial;
-    display: block;
-    font-family: var(--pd-font-family, system-ui, -apple-system, sans-serif);
-    max-width: var(--pd-max-width, 1200px);
-    margin: 0 auto;
-    padding: var(--pd-padding, 20px);
-    box-sizing: border-box;
-  }
-
-  /* Container */
   .product-container {
     background: white;
     border-radius: 12px;
@@ -21,18 +9,8 @@ export const simpleTheme = `
     font-family: var(--pd-font-family, inherit);
   }
 
-  /* Hide default elements */
-  .product-content,
-  .product-title,
-  .product-description,
-  .features-list,
-  .product-image {
-    display: none !important;
-  }
-
   /* Introduction Section */
   .product-intro {
-    display: block !important;
     font-size: var(--pd-description-font-size, 1.125rem);
     line-height: 1.75;
     color: var(--pd-description-color, #374151);
@@ -42,14 +20,14 @@ export const simpleTheme = `
 
   /* Product Highlights Section */
   .product-highlights {
-    display: flex !important;
+    margin: 64px 0;
+    display: flex;
     flex-direction: column;
     gap: 64px;
-    margin: 64px 0;
   }
 
   .highlight-block {
-    display: flex !important;
+    display: flex;
     align-items: center;
     gap: clamp(32px, 6%, 64px);
     margin: 0;
@@ -102,7 +80,6 @@ export const simpleTheme = `
 
   /* Specifications Section */
   .specifications-section {
-    display: block !important;
     margin: 64px 0;
     background: #f8fafc;
     padding: 32px;
@@ -110,7 +87,6 @@ export const simpleTheme = `
   }
 
   h2.section-title {
-    display: block !important;
     font-size: var(--pd-title-font-size, 2rem);
     font-weight: var(--pd-title-font-weight, 600);
     color: var(--pd-title-color, #1f2937);
@@ -120,7 +96,7 @@ export const simpleTheme = `
   }
 
   .specs-table {
-    display: grid !important;
+    display: grid;
     gap: 1px;
     background: #e2e8f0;
     border-radius: 8px;
@@ -128,13 +104,12 @@ export const simpleTheme = `
   }
 
   .specs-row {
-    display: grid !important;
+    display: grid;
     grid-template-columns: minmax(200px, 1fr) 2fr;
     background: white;
   }
 
   .specs-label {
-    display: block !important;
     padding: 16px 24px;
     font-weight: 500;
     color: var(--pd-title-color, #374151);
@@ -142,7 +117,6 @@ export const simpleTheme = `
   }
 
   .specs-value {
-    display: block !important;
     padding: 16px 24px;
     color: var(--pd-description-color, #4b5563);
     background: white;
@@ -150,25 +124,24 @@ export const simpleTheme = `
 
   /* Contents Section */
   .contents-section {
-    display: block !important;
     margin: 64px 0;
   }
 
   .contents-list {
-    display: grid !important;
     list-style: none;
     padding: 0;
     margin: 24px 0 0 0;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
   }
 
   .contents-item {
-    display: flex !important;
     padding: 16px 20px;
     background: #f8fafc;
     border-radius: 8px;
     color: var(--pd-features-color, #374151);
+    display: flex;
     align-items: center;
     gap: 12px;
     transition: all 0.2s ease;
@@ -186,22 +159,36 @@ export const simpleTheme = `
     font-size: 1.1em;
   }
 
-  /* Responsive Design */
   @media (max-width: 1024px) {
     .highlight-block,
     .highlight-block:nth-child(even) {
+      gap: 32px;
+    }
+
+    h3.highlight-title {
+      font-size: clamp(1.5rem, 4vw, 1.75rem);
+    }
+
+    .specifications-section {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .product-container {
+      padding: clamp(20px, 4%, 32px);
+    }
+
+    .highlight-block,
+    .highlight-block:nth-child(even) {
       flex-direction: column;
+      gap: 24px;
     }
 
     .highlight-content,
     .highlight-image {
+      width: 100%;
       min-width: 100%;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .product-container {
-      padding: 24px;
     }
 
     .specs-row {
@@ -209,19 +196,43 @@ export const simpleTheme = `
     }
 
     .specs-label {
-      border-right: none;
+      background: #f1f5f9;
+    }
+
+    .contents-list {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    h2.section-title {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .product-container {
+      padding: 16px;
+    }
+
+    .product-highlights {
+      gap: 48px;
+    }
+
+    .specifications-section {
+      padding: 16px;
+      margin: 48px 0;
+    }
+
+    .specs-label,
+    .specs-value {
+      padding: 12px 16px;
     }
 
     .contents-list {
       grid-template-columns: 1fr;
     }
 
-    h2.section-title {
-      font-size: 1.5rem;
-    }
-
-    .highlight-title {
-      font-size: 1.25rem;
+    .contents-item {
+      padding: 12px 16px;
     }
   }
 `; 
