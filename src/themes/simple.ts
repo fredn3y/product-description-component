@@ -18,7 +18,7 @@ export const simpleTheme = `
     max-width: 70ch;
   }
 
-  /* Specifications Table */
+  /* Features & Specifications Section */
   .specifications-section {
     margin: 40px 0;
   }
@@ -65,7 +65,7 @@ export const simpleTheme = `
     line-height: 1.5;
   }
 
-  /* Contents List */
+  /* Contents Section */
   .contents-section {
     margin: 40px 0 0 0;
   }
