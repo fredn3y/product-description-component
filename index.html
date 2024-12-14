@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Description Components</title>
+    <title>Product Description Demo</title>
     
-    <!-- Load the Web Component from jsDelivr CDN -->
-    <script src="https://cdn.jsdelivr.net/gh/freddy38510/product-description@main/product-description.min.js"></script>
+    <!-- Load the component -->
+    <script src="product-description.min.js"></script>
     
     <style>
         body {
@@ -15,74 +15,17 @@
             padding: 20px;
             font-family: system-ui, -apple-system, sans-serif;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #2d3748;
-            margin-bottom: 40px;
-        }
-        
-        .theme-title {
-            color: #4a5568;
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Product Description Components</h1>
-        
-        <h2 class="theme-title">Modern Theme</h2>
-        <product-description
-            title="Premium Wireless Headphones"
-            description="Experience crystal-clear audio with our premium wireless headphones. Featuring advanced noise cancellation and 30-hour battery life."
-            features='["Active Noise Cancellation", "30-hour Battery Life", "Bluetooth 5.0", "Premium Memory Foam Ear Cups"]'
-            image-url="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
-            theme="modern">
-        </product-description>
-        
-        <h2 class="theme-title">Elegant Theme</h2>
-        <product-description
-            title="Elegant Coffee Maker"
-            description="Start your mornings right with this professional-grade coffee maker. Perfect for home brewing enthusiasts."
-            features='["Programmable Timer", "10-cup Capacity", "Built-in Grinder", "Keep Warm Function"]'
-            image-url="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"
-            theme="elegant">
-        </product-description>
-        
-        <h2 class="theme-title">Dark Theme</h2>
-        <product-description
-            title="Gaming Mouse"
-            description="Professional gaming mouse with RGB lighting and customizable buttons."
-            features='["16,000 DPI Sensor", "RGB Lighting", "8 Programmable Buttons", "Ergonomic Design"]'
-            image-url="https://images.unsplash.com/photo-1527814050087-3793815479db"
-            theme="dark">
-        </product-description>
-        
-        <h2 class="theme-title">Minimal Theme</h2>
-        <product-description
-            title="Smart Watch"
-            description="Stay connected and track your fitness with this sleek and powerful smartwatch."
-            features='["Heart Rate Monitor", "GPS Tracking", "Water Resistant", "7-day Battery Life"]'
-            image-url="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
-            theme="minimal">
-        </product-description>
-        
-        <h2 class="theme-title">Default Theme</h2>
-        <product-description
-            title="Wireless Keyboard"
-            description="Enhance your productivity with this ergonomic wireless keyboard."
-            features='["Mechanical Switches", "Backlit Keys", "Multi-device Connection", "Ergonomic Design"]'
-            image-url="https://images.unsplash.com/photo-1587829741301-dc798b83add3"
-            theme="default">
-        </product-description>
-    </div>
+    <product-description
+        title="Premium Wireless Headphones"
+        description="Experience crystal-clear audio with our premium wireless headphones. Featuring advanced noise cancellation and 30-hour battery life."
+        features='["Active Noise Cancellation", "30-hour Battery Life", "Bluetooth 5.0", "Premium Memory Foam Ear Cups"]'
+        image-url="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
+        theme="modern"
+        price="299.99"
+        currency="USD">
+    </product-description>
 </body>
 </html> 

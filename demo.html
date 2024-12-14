@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Description Demo</title>
+    <meta name="description" content="Product showcase featuring premium wireless headphones and other high-quality products">
+    <title>SEO-Friendly Product Description Demo</title>
     
     <!-- Load the component from CDN -->
-    <script src="https://cdn.jsdelivr.net/gh/freddy38510/web-components@main/product-description.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/product-description.min.js"></script>
     
     <style>
         body {
@@ -47,49 +48,55 @@
 </head>
 <body>
     <div class="container">
-        <h1>Product Description Component</h1>
+        <h1>SEO-Friendly Product Description Component</h1>
 
         <div class="code-example">
-<!-- How to use this component -->
+<!-- How to use this component with SEO features -->
 1. Add the script to your page:
-<script src="https://cdn.jsdelivr.net/gh/freddy38510/web-components@main/product-description.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/product-description.min.js"></script>
 
-2. Use the component in your HTML:
+2. Use the component with all SEO attributes:
 <product-description
     title="Your Product"
     description="Your product description"
     features='["Feature 1", "Feature 2", "Feature 3"]'
     image-url="image-url.jpg"
-    theme="modern">
+    theme="modern"
+    price="299.99"
+    currency="USD">
 </product-description>
         </div>
         
-        <h2 class="theme-title">Modern Theme Example</h2>
+        <h2 class="theme-title">Modern Theme Example (SEO-Optimized)</h2>
         <product-description
             title="Premium Wireless Headphones"
             description="Experience crystal-clear audio with our premium wireless headphones. Featuring advanced noise cancellation and 30-hour battery life."
             features='["Active Noise Cancellation", "30-hour Battery Life", "Bluetooth 5.0", "Premium Memory Foam Ear Cups"]'
             image-url="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
-            theme="modern">
+            theme="modern"
+            price="299.99"
+            currency="USD">
         </product-description>
         
-        <h2 class="theme-title">Elegant Theme Example</h2>
+        <h2 class="theme-title">Elegant Theme Example (SEO-Optimized)</h2>
         <product-description
             title="Elegant Coffee Maker"
             description="Start your mornings right with this professional-grade coffee maker. Perfect for home brewing enthusiasts."
             features='["Programmable Timer", "10-cup Capacity", "Built-in Grinder", "Keep Warm Function"]'
             image-url="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"
-            theme="elegant">
+            theme="elegant"
+            price="199.99"
+            currency="USD">
         </product-description>
         
-        <h2 class="theme-title">Available Themes</h2>
-        <p>Change the theme by setting the theme attribute:</p>
+        <h2 class="theme-title">SEO Improvements</h2>
         <ul>
-            <li>modern - Neumorphic design with shadows</li>
-            <li>elegant - Serif fonts with gradient accent</li>
-            <li>minimal - Clean, borderless design</li>
-            <li>dark - Dark mode with light text</li>
-            <li>default - Simple and clean</li>
+            <li>Added Schema.org markup for better search engine understanding</li>
+            <li>Included semantic HTML5 elements (article, h2, etc.)</li>
+            <li>Added proper alt text for images</li>
+            <li>Included price and currency information</li>
+            <li>Added fallback content for search engines</li>
+            <li>Improved accessibility for screen readers</li>
         </ul>
     </div>
 </body>

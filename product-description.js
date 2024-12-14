@@ -16,7 +16,7 @@ class ProductDescription extends HTMLElement {
   
   // Observed attributes for external updates
   static get observedAttributes() {
-    return ['title', 'description', 'features', 'image-url', 'theme'];
+    return ['title', 'description', 'features', 'image-url', 'theme', 'price', 'currency'];
   }
   
   // Lifecycle: Called when attributes change
@@ -28,6 +28,69 @@ class ProductDescription extends HTMLElement {
         this._content[name] = newValue;
       }
       this.render();
+    }
+  }
+  
+  // Generate Schema.org JSON-LD
+  generateSchema() {
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: this._content.title,
+      description: this._content.description,
+      image: this._content['image-url'],
+    };
+    
+    // Add features if available
+    if (this._content.features) {
+      try {
+        const features = JSON.parse(this._content.features);
+        if (features.length > 0) {
+          schema.additionalProperty = features.map(feature => ({
+            '@type': 'PropertyValue',
+            'name': feature
+          }));
+        }
+      } catch (e) {
+        console.warn('Invalid features format');
+      }
+    }
+    
+    // Add price if available
+    if (this._content.price) {
+      schema.offers = {
+        '@type': 'Offer',
+        'price': this._content.price,
+        'priceCurrency': this._content.currency || 'USD'
+      };
+    }
+    
+    return JSON.stringify(schema);
+  }
+  
+  // Create SEO-friendly fallback content
+  generateFallbackContent() {
+    try {
+      const features = this._content.features ? JSON.parse(this._content.features) : [];
+      return `
+        <div class="product-seo-content">
+          <h2>${this._content.title || ''}</h2>
+          <p>${this._content.description || ''}</p>
+          ${features.length > 0 ? `
+            <ul>
+              ${features.map(feature => `<li>${feature}</li>`).join('')}
+            </ul>
+          ` : ''}
+          ${this._content['image-url'] ? `
+            <img src="${this._content['image-url']}" 
+                 alt="${this._content.title || 'Product image'}"
+                 width="800" height="600"
+                 loading="lazy" />
+          ` : ''}
+        </div>
+      `;
+    } catch (error) {
+      return '';
     }
   }
   
@@ -212,11 +275,25 @@ class ProductDescription extends HTMLElement {
         box-sizing: border-box;
       }
       
+      /* Hide SEO content visually but keep it accessible to screen readers and crawlers */
+      .product-seo-content {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      
       .product-image {
         width: 100%;
         height: auto;
         max-height: 400px;
         object-fit: cover;
+        display: block; /* Prevent image spacing issues */
       }
       
       .product-content {
@@ -236,6 +313,7 @@ class ProductDescription extends HTMLElement {
       .features-list {
         margin: 0;
         padding: 0 0 0 20px;
+        list-style-position: outside;
       }
       
       .features-list li {
@@ -254,34 +332,49 @@ class ProductDescription extends HTMLElement {
     `;
     
     try {
-      const features = this._content['features'] ? JSON.parse(this._content['features']) : [];
+      const features = this._content.features ? JSON.parse(this._content.features) : [];
       
+      // Add Schema.org markup
+      const schemaScript = document.createElement('script');
+      schemaScript.type = 'application/ld+json';
+      schemaScript.textContent = this.generateSchema();
+      document.head.appendChild(schemaScript);
+
       this.shadowRoot.innerHTML = `
         <style>${styles}</style>
-        <div class="product-container">
+        
+        <!-- SEO-friendly fallback content -->
+        ${this.generateFallbackContent()}
+        
+        <article class="product-container" itemscope itemtype="https://schema.org/Product">
           ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
           ${this._content['image-url'] ? `
             <img 
               class="product-image" 
               src="${this._content['image-url']}" 
-              alt="${this._content['title'] || 'Product image'}"
+              alt="${this._content.title || 'Product image'}"
               loading="lazy"
+              itemprop="image"
             >
           ` : ''}
           <div class="product-content">
-            ${this._content['title'] ? `
-              <h2 class="product-title">${this._content['title']}</h2>
+            ${this._content.title ? `
+              <h2 class="product-title" itemprop="name">${this._content.title}</h2>
             ` : ''}
-            ${this._content['description'] ? `
-              <p class="product-description">${this._content['description']}</p>
+            ${this._content.description ? `
+              <p class="product-description" itemprop="description">${this._content.description}</p>
             ` : ''}
             ${features.length > 0 ? `
               <ul class="features-list">
-                ${features.map(feature => `<li>${feature}</li>`).join('')}
+                ${features.map(feature => `
+                  <li itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
+                    <span itemprop="name">${feature}</span>
+                  </li>
+                `).join('')}
               </ul>
             ` : ''}
           </div>
-        </div>
+        </article>
       `;
     } catch (error) {
       this._error = 'Error rendering product description: ' + error.message;
