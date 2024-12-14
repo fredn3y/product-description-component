@@ -21,7 +21,7 @@
             gap: 40px;
         }
         
-        .form-section {
+        .input-section {
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -35,9 +35,13 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
+        h1, h2 {
+            color: #2d3748;
+            margin-bottom: 24px;
+        }
+
         h1 {
             text-align: center;
-            color: #2d3748;
             margin-bottom: 40px;
         }
         
@@ -52,34 +56,29 @@
             font-weight: 500;
         }
         
-        input, textarea, select {
+        select {
             width: 100%;
             padding: 8px 12px;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
             font-size: 16px;
-            margin-bottom: 4px;
+            margin-bottom: 16px;
+            background: white;
         }
-        
-        textarea {
-            min-height: 100px;
+
+        .json-input {
+            width: 100%;
+            min-height: 400px;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 16px;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            background: #1a202c;
+            color: #e2e8f0;
             resize: vertical;
-        }
-        
-        .features-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .feature-item {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        
-        .feature-item input {
-            flex-grow: 1;
+            margin-bottom: 16px;
         }
         
         button {
@@ -92,18 +91,11 @@
             font-size: 16px;
             font-weight: 500;
             transition: background 0.2s;
+            width: 100%;
         }
         
         button:hover {
             background: #3182ce;
-        }
-        
-        .remove-feature {
-            background: #fc8181;
-        }
-        
-        .remove-feature:hover {
-            background: #f56565;
         }
         
         .code-output {
@@ -113,6 +105,8 @@
             border-radius: 8px;
             overflow-x: auto;
             font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
             white-space: pre-wrap;
         }
         
@@ -131,128 +125,107 @@
             border-radius: 8px;
             padding: 20px;
         }
+
+        .error-message {
+            color: #dc2626;
+            background: #fee2e2;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .sample-json {
+            margin-top: 16px;
+            padding: 12px;
+            background: #edf2f7;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .sample-json pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .sample-json-toggle {
+            background: none;
+            border: none;
+            color: #4299e1;
+            padding: 0;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            width: auto;
+        }
+
+        .sample-json-toggle:hover {
+            background: none;
+            color: #3182ce;
+        }
     </style>
 </head>
 <body>
     <h1>Product Description Generator</h1>
     
     <div class="container">
-        <div class="form-section">
-            <form id="productForm">
-                <div class="form-group">
-                    <label for="title">Product Title</label>
-                    <input type="text" id="title" required 
-                        value="Aspire Pixo Vape Kit"
-                        placeholder="e.g., Premium Wireless Headphones">
-                </div>
-                
-                <div class="form-group">
-                    <label for="description">Product Description</label>
-                    <textarea id="description" required placeholder="Enter a detailed product description...">The Aspire Pixo Vape Kit is a thin and travel friendly pod kit intended primarily for MTL and RDL uses, featuring a gorgeous and eye-catching display screen. The Aspire Pixo Vape Kit contains a 1100mAh battery, and has a power output range of 5-30W. It charges exceptionally quickly thanks to the 2A rated charging speeds.</textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="imageUrl">Image URL</label>
-                    <input type="url" id="imageUrl" 
-                        value="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
-                        placeholder="https://example.com/image.jpg">
-                </div>
-                
-                <div class="form-group">
-                    <label>Features</label>
-                    <ul class="features-list" id="featuresList">
-                        <li class="feature-item">
-                            <input type="text" value="1100mAh Battery Capacity" placeholder="Enter a feature">
-                            <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
-                        </li>
-                        <li class="feature-item">
-                            <input type="text" value="5-30W Power Output" placeholder="Enter a feature">
-                            <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
-                        </li>
-                        <li class="feature-item">
-                            <input type="text" value="Adjustable Side Airflow" placeholder="Enter a feature">
-                            <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
-                        </li>
-                        <li class="feature-item">
-                            <input type="text" value='1.47" TFT Colour Touchscreen' placeholder="Enter a feature">
-                            <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
-                        </li>
-                        <li class="feature-item">
-                            <input type="text" value="2.0ml Pod Capacity" placeholder="Enter a feature">
-                            <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
-                        </li>
-                        <li class="feature-item">
-                            <input type="text" value="USB-C Fast Charging" placeholder="Enter a feature">
-                            <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
-                        </li>
-                    </ul>
-                    <button type="button" onclick="addFeature()">Add Feature</button>
-                </div>
-                
-                <div class="form-group">
-                    <label for="theme">Theme</label>
-                    <select id="theme">
-                        <option value="default">Default</option>
-                        <option value="modern">Modern</option>
-                        <option value="minimal">Minimal</option>
-                        <option value="dark">Dark</option>
-                        <option value="elegant">Elegant</option>
-                        <option value="feature-heavy" selected>Feature Heavy</option>
-                    </select>
-                </div>
+        <div class="input-section">
+            <div id="errorMessage" class="error-message"></div>
 
-                <!-- Add Font Selection -->
-                <div class="form-group">
-                    <label for="font">Font Family</label>
-                    <select id="font">
-                        <option value="">Theme Default</option>
-                        <optgroup label="System Fonts">
-                            <option value="Arial, sans-serif">Arial</option>
-                            <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica</option>
-                            <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
-                            <option value="Roboto, sans-serif">Roboto</option>
-                            <option value="'Open Sans', sans-serif">Open Sans</option>
-                            <option value="system-ui, -apple-system, sans-serif">System UI</option>
-                        </optgroup>
-                        <optgroup label="Serif Fonts">
-                            <option value="Georgia, serif">Georgia</option>
-                            <option value="'Times New Roman', Times, serif">Times New Roman</option>
-                            <option value="'Playfair Display', serif">Playfair Display</option>
-                        </optgroup>
-                        <optgroup label="Modern Sans-Serif">
-                            <option value="'Inter', sans-serif">Inter</option>
-                            <option value="'Poppins', sans-serif">Poppins</option>
-                            <option value="'Montserrat', sans-serif">Montserrat</option>
-                        </optgroup>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="price">Price (Optional)</label>
-                    <input type="number" id="price" step="0.01" 
-                        value="29.99"
-                        placeholder="e.g., 299.99">
-                </div>
-                
-                <div class="form-group">
-                    <label for="currency">Currency (Optional)</label>
-                    <select id="currency">
-                        <option value="USD">USD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="GBP">GBP</option>
-                        <option value="JPY">JPY</option>
-                        <option value="CAD">CAD</option>
-                        <option value="AUD">AUD</option>
-                    </select>
-                </div>
-                
-                <button type="submit">Generate Code</button>
-            </form>
+            <div class="form-group">
+                <label for="theme">Theme</label>
+                <select id="theme" onchange="handleChange()">
+                    <option value="default">Default</option>
+                    <option value="modern">Modern</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="dark">Dark</option>
+                    <option value="elegant">Elegant</option>
+                    <option value="feature-heavy" selected>Feature Heavy</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="font">Font Family</label>
+                <select id="font" onchange="handleChange()">
+                    <option value="">Theme Default</option>
+                    <optgroup label="System Fonts">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica</option>
+                        <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
+                        <option value="Roboto, sans-serif">Roboto</option>
+                        <option value="'Open Sans', sans-serif">Open Sans</option>
+                        <option value="system-ui, -apple-system, sans-serif">System UI</option>
+                    </optgroup>
+                    <optgroup label="Serif Fonts">
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                        <option value="'Playfair Display', serif">Playfair Display</option>
+                    </optgroup>
+                    <optgroup label="Modern Sans-Serif">
+                        <option value="'Inter', sans-serif">Inter</option>
+                        <option value="'Poppins', sans-serif">Poppins</option>
+                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="jsonInput">Product JSON</label>
+                <button class="sample-json-toggle" onclick="toggleSampleJson()">View Sample JSON Format</button>
+                <textarea id="jsonInput" class="json-input" placeholder="Paste your product JSON here..." onchange="handleChange()"></textarea>
+            </div>
+
+            <div id="sampleJson" class="sample-json" style="display: none;">
+                <pre></pre>
+            </div>
+
+            <button onclick="generateCode()">Generate Code</button>
         </div>
         
         <div class="preview-section">
             <h2>Generated Code</h2>
-            <div class="code-output" id="codeOutput">Fill out the form to generate code...</div>
+            <div class="code-output" id="codeOutput">Paste your JSON and click Generate to create code...</div>
             <button class="copy-button" onclick="copyCode()">Copy Code</button>
             
             <h2>Live Preview</h2>
@@ -261,61 +234,55 @@
     </div>
     
     <script>
-        function addFeature() {
-            const featuresList = document.getElementById('featuresList');
-            const li = document.createElement('li');
-            li.className = 'feature-item';
-            li.innerHTML = `
-                <input type="text" placeholder="Enter a feature">
-                <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
-            `;
-            featuresList.appendChild(li);
+        // Load sample JSON on page load
+        fetch('./examples/sample-products.txt')
+            .then(response => response.text())
+            .then(text => {
+                document.querySelector('#sampleJson pre').textContent = text;
+            });
+
+        function toggleSampleJson() {
+            const sampleJson = document.getElementById('sampleJson');
+            sampleJson.style.display = sampleJson.style.display === 'none' ? 'block' : 'none';
         }
-        
-        function removeFeature(button) {
-            const featuresList = document.getElementById('featuresList');
-            if (featuresList.children.length > 1) {
-                button.parentElement.remove();
+
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        function handleChange() {
+            const jsonInput = document.getElementById('jsonInput').value;
+            if (jsonInput.trim()) {
+                generateCode();
             }
         }
-        
-        function copyCode() {
-            const codeOutput = document.getElementById('codeOutput');
-            navigator.clipboard.writeText(codeOutput.textContent)
-                .then(() => alert('Code copied to clipboard!'))
-                .catch(err => console.error('Failed to copy code:', err));
-        }
-        
-        // Form submission handler
-        function handleSubmit(e) {
-            if (e) e.preventDefault();
-            
-            // Gather form data
-            const title = document.getElementById('title').value;
-            const description = document.getElementById('description').value;
-            const imageUrl = document.getElementById('imageUrl').value;
+
+        function generateCode() {
+            const jsonInput = document.getElementById('jsonInput').value;
             const theme = document.getElementById('theme').value;
             const font = document.getElementById('font').value;
-            const price = document.getElementById('price').value;
-            const currency = document.getElementById('currency').value;
             
-            // Gather features
-            const features = [];
-            document.querySelectorAll('#featuresList input').forEach(input => {
-                if (input.value.trim()) {
-                    features.push(input.value.trim());
-                }
-            });
-            
-            // Generate font link for Google Fonts if needed
-            const googleFonts = ['Roboto', 'Open Sans', 'Playfair Display', 'Inter', 'Poppins', 'Montserrat'];
-            const selectedFont = font.split(',')[0].replace(/['"]/g, '');
-            const fontLink = googleFonts.includes(selectedFont) 
-                ? `<link href="https://fonts.googleapis.com/css2?family=${selectedFont.replace(' ', '+')}&display=swap" rel="stylesheet">\n` 
-                : '';
-            
-            // Generate code
-            const code = `<!-- Copy and paste this code wherever you want the product description to appear -->
+            try {
+                const data = JSON.parse(jsonInput);
+                
+                // Extract data from JSON
+                const title = data.productName || '';
+                const description = data.introduction || '';
+                
+                // Generate font link for Google Fonts if needed
+                const googleFonts = ['Roboto', 'Open Sans', 'Playfair Display', 'Inter', 'Poppins', 'Montserrat'];
+                const selectedFont = font.split(',')[0].replace(/['"]/g, '');
+                const fontLink = googleFonts.includes(selectedFont) 
+                    ? `<link href="https://fonts.googleapis.com/css2?family=${selectedFont.replace(' ', '+')}&display=swap" rel="stylesheet">\n` 
+                    : '';
+                
+                // Generate code
+                const code = `<!-- Copy and paste this code wherever you want the product description to appear -->
 
 ${fontLink}<!-- Component styles -->
 <style>
@@ -336,20 +303,17 @@ ${fontLink}<!-- Component styles -->
 <!-- Use the component -->
 <product-description
     title="${title}"
-    description="${description}"${imageUrl ? `
-    image-url="${imageUrl}"` : ''}
-    features='${JSON.stringify(features)}'
-    theme="${theme}"${price ? `
-    price="${price}"
-    currency="${currency}"` : ''}>
+    description="${description}"
+    data='${JSON.stringify(data)}'
+    theme="${theme}">
 </product-description>`;
-            
-            // Update code output
-            document.getElementById('codeOutput').textContent = code;
-            
-            // For the live preview, we'll add the style block as well
-            const previewContainer = document.getElementById('previewContainer');
-            previewContainer.innerHTML = `
+                
+                // Update code output
+                document.getElementById('codeOutput').textContent = code;
+                
+                // Update preview
+                const previewContainer = document.getElementById('previewContainer');
+                previewContainer.innerHTML = `
 ${fontLink}<style>
     product-description {
         ${font ? `--pd-font-family: ${font} !important;` : ''}
@@ -360,22 +324,21 @@ ${fontLink}<style>
 </style>
 <product-description
     title="${title}"
-    description="${description}"${imageUrl ? `
-    image-url="${imageUrl}"` : ''}
-    features='${JSON.stringify(features)}'
-    theme="${theme}"${price ? `
-    price="${price}"
-    currency="${currency}"` : ''}>
+    description="${description}"
+    data='${JSON.stringify(data)}'
+    theme="${theme}">
 </product-description>`;
+            } catch (error) {
+                showError('Invalid JSON format. Please check your input.');
+            }
         }
         
-        // Add form submit handler
-        document.getElementById('productForm').addEventListener('submit', handleSubmit);
-        
-        // Auto-submit form when page loads
-        window.addEventListener('load', () => {
-            handleSubmit();
-        });
+        function copyCode() {
+            const codeOutput = document.getElementById('codeOutput');
+            navigator.clipboard.writeText(codeOutput.textContent)
+                .then(() => alert('Code copied to clipboard!'))
+                .catch(err => console.error('Failed to copy code:', err));
+        }
     </script>
 </body>
 </html> 

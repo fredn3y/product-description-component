@@ -1,4 +1,4 @@
-import type { ProductContent, ThemeName, ProductSchema } from './types';
+import type { ProductContent, ThemeName, ProductSchema, ProductData } from './types';
 import { themes } from './themes';
 
 export class ProductDescription extends HTMLElement {
@@ -18,7 +18,7 @@ export class ProductDescription extends HTMLElement {
   }
 
   static get observedAttributes(): string[] {
-    return ['title', 'description', 'features', 'image-url', 'theme', 'price', 'currency'];
+    return ['title', 'description', 'features', 'image-url', 'theme', 'price', 'currency', 'data'];
   }
 
   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
@@ -163,7 +163,7 @@ export class ProductDescription extends HTMLElement {
     `;
 
     try {
-      const features: string[] = this._content.features ? JSON.parse(this._content.features) : [];
+      const data: ProductData = this._content.data ? JSON.parse(this._content.data) : {};
       
       // Add Schema.org markup
       const schemaScript = document.createElement('script');
@@ -178,74 +178,47 @@ export class ProductDescription extends HTMLElement {
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
             
-            <!-- Intro Section -->
+            <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
               ${this._content.description || ''}
             </div>
 
-            <!-- Key Features Section -->
-            <section class="key-features-section">
-              <h2>Key Features</h2>
-              <div class="key-features-grid">
-                ${features.map(feature => `
-                  <div class="key-feature-item" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                    <span itemprop="name">${feature}</span>
+            <!-- Product Highlights Section -->
+            <section class="product-highlights">
+              ${Object.entries(data.productHighlights || {}).map(([_key, highlight]) => `
+                <div class="highlight-block">
+                  <div class="highlight-content">
+                    <h3 class="highlight-title">${highlight.title}</h3>
+                    <p class="highlight-description">${highlight.description}</p>
+                  </div>
+                  ${highlight.image ? `
+                    <div class="highlight-image">
+                      <img src="${highlight.image}" alt="${highlight.title}" loading="lazy">
+                    </div>
+                  ` : ''}
+                </div>
+              `).join('')}
+            </section>
+
+            <!-- Specifications Section -->
+            <section class="specifications-section">
+              <h2 class="section-title">Features & Specifications</h2>
+              <div class="specs-table">
+                ${Object.entries(data.specifications || {}).map(([key, value]) => `
+                  <div class="specs-row">
+                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                    <div class="specs-value">${value}</div>
                   </div>
                 `).join('')}
               </div>
             </section>
 
-            <!-- Flex Sections -->
-            <div class="flex-sections">
-              <div class="flex-section">
-                <div class="flex-section-content">
-                  <h2 class="product-title" itemprop="name">${this._content.title || ''}</h2>
-                  <p>${this._content.description || ''}</p>
-                </div>
-                ${this._content['image-url'] ? `
-                  <div class="flex-section-image">
-                    <img 
-                      src="${this._content['image-url']}" 
-                      alt="${this._content.title || 'Product image'}"
-                      loading="lazy"
-                      itemprop="image"
-                    >
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-
-            <!-- Features & Specifications -->
-            <section class="specs-table">
-              <h2>Features & Specifications</h2>
-              ${features.map((feature, index) => `
-                <div class="specs-row">
-                  <div class="specs-cell">
-                    <span class="specs-label">Feature ${index + 1}</span>
-                  </div>
-                  <div class="specs-cell">
-                    <span class="specs-value">${feature}</span>
-                  </div>
-                </div>
-              `).join('')}
-              ${this._content.price ? `
-                <div class="specs-row">
-                  <div class="specs-cell">
-                    <span class="specs-label">Price</span>
-                  </div>
-                  <div class="specs-cell">
-                    <span class="specs-value">${this._content.price} ${this._content.currency || 'USD'}</span>
-                  </div>
-                </div>
-              ` : ''}
-            </section>
-
             <!-- Contents Section -->
             <section class="contents-section">
-              <h2>Contents</h2>
+              <h2 class="section-title">Package Contents</h2>
               <ul class="contents-list">
-                ${features.map(feature => `
-                  <li class="contents-item">${feature}</li>
+                ${(data.contents?.colors || []).map((item: string) => `
+                  <li class="contents-item">${item}</li>
                 `).join('')}
               </ul>
             </section>
@@ -271,15 +244,6 @@ export class ProductDescription extends HTMLElement {
               ` : ''}
               ${this._content.description ? `
                 <p class="product-description" itemprop="description">${this._content.description}</p>
-              ` : ''}
-              ${features.length > 0 ? `
-                <ul class="features-list">
-                  ${features.map(feature => `
-                    <li itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                      <span itemprop="name">${feature}</span>
-                    </li>
-                  `).join('')}
-                </ul>
               ` : ''}
             </div>
           </article>

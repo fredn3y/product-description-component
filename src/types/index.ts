@@ -6,6 +6,7 @@ export interface ProductContent {
   'image-url'?: string;
   price?: string;
   currency?: string;
+  data?: string;
 }
 
 export interface ThemeStyles {
@@ -28,5 +29,28 @@ export interface ProductSchema {
     '@type': string;
     price: string;
     priceCurrency: string;
+  };
+}
+
+export interface ProductHighlight {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+export interface ProductSpecifications {
+  [key: string]: string;
+}
+
+export interface ProductData {
+  productName: string;
+  introduction: string;
+  productHighlights: {
+    [key: string]: ProductHighlight;
+  };
+  specifications: ProductSpecifications;
+  contents: {
+    quantity: number;
+    colors: string[];
   };
 }
