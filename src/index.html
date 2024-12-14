@@ -282,6 +282,21 @@
             
             // Generate code
             const code = `<!-- Copy and paste this code wherever you want the product description to appear -->
+
+<!-- Optional: Add these CSS variables to match your site's styles -->
+<style>
+    product-description {
+        /* Font inheritance */
+        --pd-font-family: inherit;  /* Will use your site's font */
+        
+        /* Colors - these will inherit from your site's colors */
+        --pd-title-color: inherit;  /* Will use your site's heading color */
+        --pd-description-color: inherit;  /* Will use your site's text color */
+        --pd-features-color: inherit;  /* Will use your site's text color */
+    }
+</style>
+
+<!-- Component script -->
 <script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/dist/product-description.min.js"><\/script>
 
 <!-- Use the component -->
@@ -298,9 +313,17 @@
             // Update code output
             document.getElementById('codeOutput').textContent = code;
             
-            // Update preview container
+            // For the live preview, we'll add the style block as well
             const previewContainer = document.getElementById('previewContainer');
             previewContainer.innerHTML = `
+<style>
+    product-description {
+        --pd-font-family: inherit;
+        --pd-title-color: inherit;
+        --pd-description-color: inherit;
+        --pd-features-color: inherit;
+    }
+</style>
 <product-description
     title="${title}"
     description="${description}"${imageUrl ? `
