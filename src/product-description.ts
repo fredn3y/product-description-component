@@ -180,7 +180,7 @@ export class ProductDescription extends HTMLElement {
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${data.description || data.productName || this._content.description || ''}
+              ${data.description || data.introduction || data.productName || this._content.description || ''}
             </div>
 
             <!-- Product Highlights Section -->
@@ -200,11 +200,11 @@ export class ProductDescription extends HTMLElement {
               `).join('')}
             </section>
 
-            <!-- Specifications Section -->
+            <!-- Features & Specifications Section -->
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
-                ${Object.entries(data.specifications || {}).map(([key, value]) => `
+                ${Object.entries(data.specifications ?? {}).map(([key, value]) => `
                   <div class="specs-row">
                     <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
                     <div class="specs-value">${value}</div>
@@ -217,7 +217,7 @@ export class ProductDescription extends HTMLElement {
             <section class="contents-section">
               <h2 class="section-title">Package Contents</h2>
               <ul class="contents-list">
-                ${(data.contents?.colors || []).map((item: string) => `
+                ${(data.contents?.colors ?? []).map((item: string) => `
                   <li class="contents-item">${item}</li>
                 `).join('')}
               </ul>
@@ -232,14 +232,14 @@ export class ProductDescription extends HTMLElement {
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${data.description || ''}
+              ${data.description || data.introduction || data.productName || ''}
             </div>
 
             <!-- Features & Specifications Section -->
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
-                ${Object.entries(data.specifications || {}).map(([key, value]) => `
+                ${Object.entries(data.specifications ?? {}).map(([key, value]) => `
                   <div class="specs-row">
                     <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
                     <div class="specs-value">${value}</div>
@@ -252,7 +252,7 @@ export class ProductDescription extends HTMLElement {
             <section class="contents-section">
               <h2 class="section-title">Package Contents</h2>
               <ul class="contents-list">
-                ${(data.contents?.colors || []).map((item: string) => `
+                ${(data.contents?.colors ?? []).map((item: string) => `
                   <li class="contents-item">${item}</li>
                 `).join('')}
               </ul>

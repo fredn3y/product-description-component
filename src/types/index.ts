@@ -44,13 +44,14 @@ export interface ProductSpecifications {
 
 export interface ProductData {
   productName: string;
-  description: string;
-  productHighlights: {
+  description?: string;
+  introduction?: string;
+  productHighlights?: {
     [key: string]: ProductHighlight;
   };
-  specifications: ProductSpecifications;
-  contents: {
-    quantity: number;
-    colors: string[];
+  specifications?: ProductSpecifications;
+  contents?: {
+    quantity?: number;
+    colors?: string[];
   };
 }
