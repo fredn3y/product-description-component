@@ -200,6 +200,32 @@
                         <option value="feature-heavy" selected>Feature Heavy</option>
                     </select>
                 </div>
+
+                <!-- Add Font Selection -->
+                <div class="form-group">
+                    <label for="font">Font Family</label>
+                    <select id="font">
+                        <option value="">Theme Default</option>
+                        <optgroup label="System Fonts">
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica</option>
+                            <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
+                            <option value="Roboto, sans-serif">Roboto</option>
+                            <option value="'Open Sans', sans-serif">Open Sans</option>
+                            <option value="system-ui, -apple-system, sans-serif">System UI</option>
+                        </optgroup>
+                        <optgroup label="Serif Fonts">
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                            <option value="'Playfair Display', serif">Playfair Display</option>
+                        </optgroup>
+                        <optgroup label="Modern Sans-Serif">
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="'Poppins', sans-serif">Poppins</option>
+                            <option value="'Montserrat', sans-serif">Montserrat</option>
+                        </optgroup>
+                    </select>
+                </div>
                 
                 <div class="form-group">
                     <label for="price">Price (Optional)</label>
@@ -269,6 +295,7 @@
             const description = document.getElementById('description').value;
             const imageUrl = document.getElementById('imageUrl').value;
             const theme = document.getElementById('theme').value;
+            const font = document.getElementById('font').value;
             const price = document.getElementById('price').value;
             const currency = document.getElementById('currency').value;
             
@@ -280,19 +307,26 @@
                 }
             });
             
+            // Generate font link for Google Fonts if needed
+            const googleFonts = ['Roboto', 'Open Sans', 'Playfair Display', 'Inter', 'Poppins', 'Montserrat'];
+            const selectedFont = font.split(',')[0].replace(/['"]/g, '');
+            const fontLink = googleFonts.includes(selectedFont) 
+                ? `<link href="https://fonts.googleapis.com/css2?family=${selectedFont.replace(' ', '+')}&display=swap" rel="stylesheet">\n` 
+                : '';
+            
             // Generate code
             const code = `<!-- Copy and paste this code wherever you want the product description to appear -->
 
-<!-- Optional: Add these CSS variables to match your site's styles -->
+${fontLink}<!-- Component styles -->
 <style>
     product-description {
-        /* Font inheritance */
-        --pd-font-family: inherit;  /* Will use your site's font */
+        /* Font family - explicitly set */
+        ${font ? `--pd-font-family: ${font} !important;` : '/* Using theme default font */'}
         
         /* Colors - these will inherit from your site's colors */
-        --pd-title-color: inherit;  /* Will use your site's heading color */
-        --pd-description-color: inherit;  /* Will use your site's text color */
-        --pd-features-color: inherit;  /* Will use your site's text color */
+        --pd-title-color: inherit;
+        --pd-description-color: inherit;
+        --pd-features-color: inherit;
     }
 </style>
 
@@ -316,9 +350,9 @@
             // For the live preview, we'll add the style block as well
             const previewContainer = document.getElementById('previewContainer');
             previewContainer.innerHTML = `
-<style>
+${fontLink}<style>
     product-description {
-        --pd-font-family: inherit;
+        ${font ? `--pd-font-family: ${font} !important;` : ''}
         --pd-title-color: inherit;
         --pd-description-color: inherit;
         --pd-features-color: inherit;

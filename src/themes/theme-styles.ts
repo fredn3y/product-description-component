@@ -7,17 +7,19 @@ export const themes: ThemeStyles = {
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       overflow: hidden;
+      font-family: var(--pd-font-family, inherit);
     }
     .product-title {
-      font-size: 24px;
-      font-weight: 600;
-      color: #1a1a1a;
+      font-size: var(--pd-title-font-size, 24px);
+      font-weight: var(--pd-title-font-weight, 600);
+      color: var(--pd-title-color, #1a1a1a);
     }
     .product-description {
-      color: #4a4a4a;
+      color: var(--pd-description-color, #4a4a4a);
+      font-size: var(--pd-description-font-size, inherit);
     }
     .features-list li {
-      color: #4a4a4a;
+      color: var(--pd-features-color, #4a4a4a);
     }
   `,
   modern: `
@@ -26,19 +28,20 @@ export const themes: ThemeStyles = {
       border-radius: 16px;
       box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
       overflow: hidden;
+      font-family: var(--pd-font-family, inherit);
     }
     .product-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: #2d3748;
+      font-size: var(--pd-title-font-size, 28px);
+      font-weight: var(--pd-title-font-weight, 700);
+      color: var(--pd-title-color, #2d3748);
       letter-spacing: -0.5px;
     }
     .product-description {
-      color: #4a5568;
-      font-size: 17px;
+      color: var(--pd-description-color, #4a5568);
+      font-size: var(--pd-description-font-size, 17px);
     }
     .features-list li {
-      color: #4a5568;
+      color: var(--pd-features-color, #4a5568);
       position: relative;
       padding-left: 24px;
     }
@@ -55,18 +58,19 @@ export const themes: ThemeStyles = {
       border: 1px solid #e2e8f0;
       border-radius: 0;
       overflow: hidden;
+      font-family: var(--pd-font-family, inherit);
     }
     .product-title {
-      font-size: 24px;
-      font-weight: 500;
-      color: #000;
+      font-size: var(--pd-title-font-size, 24px);
+      font-weight: var(--pd-title-font-weight, 500);
+      color: var(--pd-title-color, #000);
       border-bottom: 2px solid #000;
       padding-bottom: 8px;
       margin-bottom: 24px;
     }
     .product-description {
-      color: #2d3748;
-      font-size: 16px;
+      color: var(--pd-description-color, #2d3748);
+      font-size: var(--pd-description-font-size, 16px);
       line-height: 1.8;
     }
     .features-list {
@@ -74,7 +78,7 @@ export const themes: ThemeStyles = {
       padding: 0;
     }
     .features-list li {
-      color: #2d3748;
+      color: var(--pd-features-color, #2d3748);
       padding: 8px 0;
       border-bottom: 1px solid #e2e8f0;
     }
@@ -85,17 +89,19 @@ export const themes: ThemeStyles = {
       border-radius: 12px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       overflow: hidden;
+      font-family: var(--pd-font-family, inherit);
     }
     .product-title {
-      font-size: 26px;
-      font-weight: 600;
-      color: #fff;
+      font-size: var(--pd-title-font-size, 26px);
+      font-weight: var(--pd-title-font-weight, 600);
+      color: var(--pd-title-color, #fff);
     }
     .product-description {
-      color: #cbd5e0;
+      color: var(--pd-description-color, #cbd5e0);
+      font-size: var(--pd-description-font-size, inherit);
     }
     .features-list li {
-      color: #cbd5e0;
+      color: var(--pd-features-color, #cbd5e0);
     }
     .features-list li::marker {
       color: #4299e1;
@@ -109,6 +115,7 @@ export const themes: ThemeStyles = {
       box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
       overflow: hidden;
       position: relative;
+      font-family: var(--pd-font-family, 'Georgia', serif);
     }
     .product-container::before {
       content: "";
@@ -120,21 +127,18 @@ export const themes: ThemeStyles = {
       background: linear-gradient(90deg, #667eea, #764ba2);
     }
     .product-title {
-      font-size: 28px;
-      font-weight: 600;
-      color: #1a202c;
-      font-family: 'Georgia', serif;
+      font-size: var(--pd-title-font-size, 28px);
+      font-weight: var(--pd-title-font-weight, 600);
+      color: var(--pd-title-color, #1a202c);
     }
     .product-description {
-      color: #4a5568;
-      font-size: 16px;
+      color: var(--pd-description-color, #4a5568);
+      font-size: var(--pd-description-font-size, 16px);
       line-height: 1.8;
-      font-family: 'Georgia', serif;
     }
     .features-list li {
-      color: #4a5568;
+      color: var(--pd-features-color, #4a5568);
       padding: 4px 0;
-      font-family: 'Georgia', serif;
     }
   `,
   'feature-heavy': `
@@ -145,12 +149,13 @@ export const themes: ThemeStyles = {
       padding: 32px;
       max-width: 1200px;
       margin: 0 auto;
+      font-family: var(--pd-font-family, inherit);
     }
 
     .product-intro {
       margin-bottom: 40px;
-      color: #374151;
-      font-size: 1.125rem;
+      color: var(--pd-description-color, #374151);
+      font-size: var(--pd-description-font-size, 1.125rem);
       line-height: 1.75;
     }
 
@@ -159,9 +164,9 @@ export const themes: ThemeStyles = {
     }
 
     .key-features-section h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #1f2937;
+      font-size: var(--pd-title-font-size, 2rem);
+      font-weight: var(--pd-title-font-weight, 600);
+      color: var(--pd-title-color, #1f2937);
       margin-bottom: 24px;
     }
 
@@ -179,6 +184,7 @@ export const themes: ThemeStyles = {
       display: flex;
       align-items: center;
       gap: 12px;
+      color: var(--pd-features-color, #374151);
     }
 
     .key-feature-item i {
@@ -227,9 +233,9 @@ export const themes: ThemeStyles = {
     }
 
     .specs-table h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #1f2937;
+      font-size: var(--pd-title-font-size, 2rem);
+      font-weight: var(--pd-title-font-weight, 600);
+      color: var(--pd-title-color, #1f2937);
       margin-bottom: 24px;
     }
 
@@ -252,11 +258,11 @@ export const themes: ThemeStyles = {
 
     .specs-label {
       font-weight: 500;
-      color: #374151;
+      color: var(--pd-features-color, #374151);
     }
 
     .specs-value {
-      color: #6b7280;
+      color: var(--pd-description-color, #6b7280);
     }
 
     .contents-section {
@@ -264,9 +270,9 @@ export const themes: ThemeStyles = {
     }
 
     .contents-section h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #1f2937;
+      font-size: var(--pd-title-font-size, 2rem);
+      font-weight: var(--pd-title-font-weight, 600);
+      color: var(--pd-title-color, #1f2937);
       margin-bottom: 24px;
     }
 
@@ -281,7 +287,7 @@ export const themes: ThemeStyles = {
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #374151;
+      color: var(--pd-features-color, #374151);
     }
 
     .contents-item::before {
