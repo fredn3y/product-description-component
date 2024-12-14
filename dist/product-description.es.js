@@ -167,6 +167,23 @@ const _t = class _t extends HTMLElement {
               ${n2.description || n2.introduction || n2.productName || ""}
             </div>
 
+            <!-- Product Highlights Section -->
+            <section class="product-highlights">
+              ${Object.entries(n2.productHighlights || {}).map(([n3, t4]) => `
+                <div class="highlight-block">
+                  <div class="highlight-content">
+                    <h3 class="highlight-title">${t4.title}</h3>
+                    <p class="highlight-description">${t4.description}</p>
+                  </div>
+                  ${t4.image ? `
+                    <div class="highlight-image">
+                      <img src="${t4.image}" alt="${t4.title}" loading="lazy">
+                    </div>
+                  ` : ""}
+                </div>
+              `).join("")}
+            </section>
+
             <!-- Features & Specifications Section -->
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>

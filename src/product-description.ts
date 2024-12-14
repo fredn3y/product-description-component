@@ -226,6 +226,23 @@ export class ProductDescription extends HTMLElement {
               ${data.description || data.introduction || data.productName || ''}
             </div>
 
+            <!-- Product Highlights Section -->
+            <section class="product-highlights">
+              ${Object.entries(data.productHighlights || {}).map(([_key, highlight]: [string, ProductHighlight]) => `
+                <div class="highlight-block">
+                  <div class="highlight-content">
+                    <h3 class="highlight-title">${highlight.title}</h3>
+                    <p class="highlight-description">${highlight.description}</p>
+                  </div>
+                  ${highlight.image ? `
+                    <div class="highlight-image">
+                      <img src="${highlight.image}" alt="${highlight.title}" loading="lazy">
+                    </div>
+                  ` : ''}
+                </div>
+              `).join('')}
+            </section>
+
             <!-- Features & Specifications Section -->
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
