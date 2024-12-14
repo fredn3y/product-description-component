@@ -12,7 +12,7 @@ export interface ThemeStyles {
   [key: string]: string;
 }
 
-export type ThemeName = 'default' | 'modern' | 'minimal' | 'dark' | 'elegant';
+export type ThemeName = 'default' | 'modern' | 'minimal' | 'dark' | 'elegant' | 'feature-heavy';
 
 export interface ProductSchema {
   '@context': string;

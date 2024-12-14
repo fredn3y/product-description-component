@@ -1,23 +1,20 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import terser from '@rollup/plugin-terser';
 
 export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/product-description.ts'),
       name: 'ProductDescription',
-      fileName: (format) => `product-description.${format}.js`,
       formats: ['es', 'umd'],
+      fileName: (format) => format === 'umd' ? 'product-description.min.js' : `product-description.${format}.js`
     },
     rollupOptions: {
+      plugins: [terser()],
       output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') {
-            return 'product-description.css';
-          }
-          return assetInfo.name;
-        },
-      },
+        inlineDynamicImports: true
+      }
     },
     sourcemap: true,
     minify: 'terser',

@@ -32,7 +32,7 @@ export class ProductDescription extends HTMLElement {
   }
 
   private isValidTheme(theme: string | null): theme is ThemeName {
-    return theme !== null && ['default', 'modern', 'minimal', 'dark', 'elegant'].includes(theme);
+    return theme !== null && ['default', 'modern', 'minimal', 'dark', 'elegant', 'feature-heavy'].includes(theme);
   }
 
   private generateSchema(): string {
@@ -164,38 +164,125 @@ export class ProductDescription extends HTMLElement {
       schemaScript.textContent = this.generateSchema();
       document.head.appendChild(schemaScript);
 
+      // Generate the appropriate layout based on theme
+      let content = '';
+      if (this._theme === 'feature-heavy') {
+        content = `
+          <article class="product-container" itemscope itemtype="https://schema.org/Product">
+            ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
+            
+            <!-- Intro Section -->
+            <div class="product-intro" itemprop="description">
+              ${this._content.description || ''}
+            </div>
+
+            <!-- Key Features Section -->
+            <section class="key-features-section">
+              <h2>Key Features</h2>
+              <div class="key-features-grid">
+                ${features.map(feature => `
+                  <div class="key-feature-item" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
+                    <span itemprop="name">${feature}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </section>
+
+            <!-- Flex Sections -->
+            <div class="flex-sections">
+              <div class="flex-section">
+                <div class="flex-section-content">
+                  <h2 class="product-title" itemprop="name">${this._content.title || ''}</h2>
+                  <p>${this._content.description || ''}</p>
+                </div>
+                ${this._content['image-url'] ? `
+                  <div class="flex-section-image">
+                    <img 
+                      src="${this._content['image-url']}" 
+                      alt="${this._content.title || 'Product image'}"
+                      loading="lazy"
+                      itemprop="image"
+                    >
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+
+            <!-- Features & Specifications -->
+            <section class="specs-table">
+              <h2>Features & Specifications</h2>
+              ${features.map((feature, index) => `
+                <div class="specs-row">
+                  <div class="specs-cell">
+                    <span class="specs-label">Feature ${index + 1}</span>
+                  </div>
+                  <div class="specs-cell">
+                    <span class="specs-value">${feature}</span>
+                  </div>
+                </div>
+              `).join('')}
+              ${this._content.price ? `
+                <div class="specs-row">
+                  <div class="specs-cell">
+                    <span class="specs-label">Price</span>
+                  </div>
+                  <div class="specs-cell">
+                    <span class="specs-value">${this._content.price} ${this._content.currency || 'USD'}</span>
+                  </div>
+                </div>
+              ` : ''}
+            </section>
+
+            <!-- Contents Section -->
+            <section class="contents-section">
+              <h2>Contents</h2>
+              <ul class="contents-list">
+                ${features.map(feature => `
+                  <li class="contents-item">${feature}</li>
+                `).join('')}
+              </ul>
+            </section>
+          </article>
+        `;
+      } else {
+        // Original layout for other themes
+        content = `
+          <article class="product-container" itemscope itemtype="https://schema.org/Product">
+            ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
+            ${this._content['image-url'] ? `
+              <img 
+                class="product-image" 
+                src="${this._content['image-url']}" 
+                alt="${this._content.title || 'Product image'}"
+                loading="lazy"
+                itemprop="image"
+              >
+            ` : ''}
+            <div class="product-content">
+              ${this._content.title ? `
+                <h2 class="product-title" itemprop="name">${this._content.title}</h2>
+              ` : ''}
+              ${this._content.description ? `
+                <p class="product-description" itemprop="description">${this._content.description}</p>
+              ` : ''}
+              ${features.length > 0 ? `
+                <ul class="features-list">
+                  ${features.map(feature => `
+                    <li itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
+                      <span itemprop="name">${feature}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              ` : ''}
+            </div>
+          </article>
+        `;
+      }
+
       this._shadow.innerHTML = `
         <style>${styles}</style>
         ${this.generateFallbackContent()}
-        <article class="product-container" itemscope itemtype="https://schema.org/Product">
-          ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
-          ${this._content['image-url'] ? `
-            <img 
-              class="product-image" 
-              src="${this._content['image-url']}" 
-              alt="${this._content.title || 'Product image'}"
-              loading="lazy"
-              itemprop="image"
-            >
-          ` : ''}
-          <div class="product-content">
-            ${this._content.title ? `
-              <h2 class="product-title" itemprop="name">${this._content.title}</h2>
-            ` : ''}
-            ${this._content.description ? `
-              <p class="product-description" itemprop="description">${this._content.description}</p>
-            ` : ''}
-            ${features.length > 0 ? `
-              <ul class="features-list">
-                ${features.map((feature: string) => `
-                  <li itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                    <span itemprop="name">${feature}</span>
-                  </li>
-                `).join('')}
-              </ul>
-            ` : ''}
-          </div>
-        </article>
+        ${content}
       `;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';

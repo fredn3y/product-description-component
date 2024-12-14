@@ -2,8 +2,8 @@
   "name": "product-description-component",
   "version": "1.0.0",
   "description": "A customizable web component for product descriptions with multiple themes",
-  "main": "dist/product-description.js",
-  "module": "dist/product-description.esm.js",
+  "main": "dist/product-description.min.js",
+  "module": "dist/product-description.es.js",
   "types": "dist/types/index.d.ts",
   "files": [
     "dist"
@@ -28,6 +28,7 @@
   "author": "fredn3y",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/node": "^20.10.5",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
