@@ -124,37 +124,6 @@ export class ProductDescription extends HTMLElement {
         white-space: nowrap;
         border: 0;
       }
-      .product-image {
-        width: 100%;
-        height: auto;
-        max-height: var(--pd-image-max-height, 400px);
-        object-fit: cover;
-        display: block;
-      }
-      .product-content {
-        padding: var(--pd-content-padding, 20px);
-      }
-      .product-title {
-        margin: 0 0 16px 0;
-        color: var(--pd-title-color, inherit);
-        font-size: var(--pd-title-font-size, inherit);
-        font-weight: var(--pd-title-font-weight, inherit);
-      }
-      .product-description {
-        font-size: var(--pd-description-font-size, 16px);
-        line-height: var(--pd-description-line-height, 1.6);
-        margin: 0 0 20px 0;
-        color: var(--pd-description-color, inherit);
-      }
-      .features-list {
-        margin: 0;
-        padding: 0 0 0 20px;
-        list-style-position: outside;
-      }
-      .features-list li {
-        margin: 8px 0;
-        color: var(--pd-features-color, inherit);
-      }
       .error-message {
         color: var(--pd-error-color, #dc2626);
         padding: 10px;
