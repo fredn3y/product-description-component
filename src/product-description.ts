@@ -239,16 +239,16 @@ export class ProductDescription extends HTMLElement {
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
-                ${Object.entries(data.specifications || {}).map(([key, value]) => `
-                  <div class="specs-row">
-                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
-                    <div class="specs-value">${value}</div>
-                  </div>
-                `).join('')}
                 ${Object.entries(data.productHighlights || {}).map(([_key, highlight]: [string, ProductHighlight]) => `
                   <div class="specs-row">
                     <div class="specs-label">${highlight.title}</div>
                     <div class="specs-value">${highlight.description}</div>
+                  </div>
+                `).join('')}
+                ${Object.entries(data.specifications || {}).map(([key, value]) => `
+                  <div class="specs-row">
+                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                    <div class="specs-value">${value}</div>
                   </div>
                 `).join('')}
               </div>
