@@ -100,6 +100,9 @@ export class ProductDescription extends HTMLElement {
   }
 
   private render(): void {
+    console.log('Rendering with theme:', this._theme);
+    console.log('Theme styles:', themes[this._theme]);
+    
     const styles = `
       ${ProductDescription.globalStyles}
       :host {
@@ -164,6 +167,7 @@ export class ProductDescription extends HTMLElement {
 
     try {
       const data: ProductData = this._content.data ? JSON.parse(this._content.data) : {};
+      console.log('Parsed data:', data);
       
       // Add Schema.org markup
       const schemaScript = document.createElement('script');
@@ -174,6 +178,7 @@ export class ProductDescription extends HTMLElement {
       // Generate the appropriate layout based on theme
       let content = '';
       if (this._theme === 'feature-heavy') {
+        console.log('Using feature-heavy template');
         content = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
@@ -225,7 +230,7 @@ export class ProductDescription extends HTMLElement {
           </article>
         `;
       } else {
-        // Simple theme layout
+        console.log('Using simple template');
         content = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
@@ -260,6 +265,7 @@ export class ProductDescription extends HTMLElement {
           </article>
         `;
       }
+      console.log('Generated content:', content);
 
       this._shadow.innerHTML = `
         <style>${styles}</style>
@@ -269,6 +275,7 @@ export class ProductDescription extends HTMLElement {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       this._error = `Error rendering product description: ${errorMessage}`;
+      console.error('Render error:', this._error);
       this._shadow.innerHTML = `
         <style>${styles}</style>
         <div class="error-message">${this._error}</div>
