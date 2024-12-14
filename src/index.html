@@ -133,6 +133,41 @@
             border-radius: 8px;
             padding: 20px;
         }
+        
+        .customization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+        
+        .customization-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .customization-item label {
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        .customization-item input,
+        .customization-item select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .customization-item input[type="color"] {
+            height: 40px;
+            padding: 2px;
+        }
+        
+        /* Add Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&family=Open+Sans:wght@400;600&family=Poppins:wght@400;600&family=Playfair+Display:wght@400;600&family=Montserrat:wght@400;600&display=swap');
     </style>
 </head>
 <body>
@@ -201,6 +236,53 @@
                         <option value="elegant">Elegant</option>
                         <option value="feature-heavy" selected>Feature Heavy</option>
                     </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Style Customization</label>
+                    <div class="customization-grid">
+                        <!-- Font Family -->
+                        <div class="customization-item">
+                            <label for="fontFamily">Font Family</label>
+                            <select id="fontFamily">
+                                <option value="">Default</option>
+                                <option value="'Roboto', sans-serif">Roboto</option>
+                                <option value="'Open Sans', sans-serif">Open Sans</option>
+                                <option value="'Poppins', sans-serif">Poppins</option>
+                                <option value="'Playfair Display', serif">Playfair Display</option>
+                                <option value="'Montserrat', sans-serif">Montserrat</option>
+                            </select>
+                        </div>
+
+                        <!-- Title Color -->
+                        <div class="customization-item">
+                            <label for="titleColor">Title Color</label>
+                            <input type="color" id="titleColor" value="#1a202c">
+                        </div>
+
+                        <!-- Description Color -->
+                        <div class="customization-item">
+                            <label for="descriptionColor">Description Color</label>
+                            <input type="color" id="descriptionColor" value="#4a5568">
+                        </div>
+
+                        <!-- Features Color -->
+                        <div class="customization-item">
+                            <label for="featuresColor">Features Color</label>
+                            <input type="color" id="featuresColor" value="#4a5568">
+                        </div>
+
+                        <!-- Font Sizes -->
+                        <div class="customization-item">
+                            <label for="titleSize">Title Font Size (px)</label>
+                            <input type="number" id="titleSize" value="24" min="16" max="48">
+                        </div>
+
+                        <div class="customization-item">
+                            <label for="descriptionSize">Description Font Size (px)</label>
+                            <input type="number" id="descriptionSize" value="16" min="12" max="24">
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -282,10 +364,34 @@
                 }
             });
             
+            // Gather customization values
+            const fontFamily = document.getElementById('fontFamily').value;
+            const titleColor = document.getElementById('titleColor').value;
+            const descriptionColor = document.getElementById('descriptionColor').value;
+            const featuresColor = document.getElementById('featuresColor').value;
+            const titleSize = document.getElementById('titleSize').value;
+            const descriptionSize = document.getElementById('descriptionSize').value;
+            
+            // Generate custom styles
+            const customStyles = fontFamily || titleColor || descriptionColor || featuresColor || titleSize || descriptionSize
+                ? `
+    <style>
+        product-description {
+            ${fontFamily ? `--pd-font-family: ${fontFamily};` : ''}
+            ${titleColor ? `--pd-title-color: ${titleColor};` : ''}
+            ${titleSize ? `--pd-title-font-size: ${titleSize}px;` : ''}
+            ${descriptionColor ? `--pd-description-color: ${descriptionColor};` : ''}
+            ${descriptionSize ? `--pd-description-font-size: ${descriptionSize}px;` : ''}
+            ${featuresColor ? `--pd-features-color: ${featuresColor};` : ''}
+        }
+    </style>`
+                : '';
+            
             // Generate code
             const code = `<!-- Copy and paste this code wherever you want the product description to appear -->
-<${'script'} src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/dist/product-description.min.js"></${'script'}>
+<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/dist/product-description.min.js"><\/script>
 
+${customStyles}
 <!-- Use the component -->
 <product-description
     title="${title}"
@@ -302,7 +408,8 @@
             
             // Update live preview
             const previewContainer = document.getElementById('previewContainer');
-            const previewCode = `<product-description
+            previewContainer.innerHTML = customStyles + `
+<product-description
     title="${title}"
     description="${description}"${imageUrl ? `
     image-url="${imageUrl}"` : ''}
@@ -311,7 +418,6 @@
     price="${price}"
     currency="${currency}"` : ''}>
 </product-description>`;
-            previewContainer.innerHTML = previewCode;
         }
         
         // Add form submit handler
@@ -320,6 +426,11 @@
         // Auto-submit form when page loads
         window.addEventListener('load', () => {
             handleSubmit();
+        });
+        
+        // Add event listeners for real-time preview updates
+        ['fontFamily', 'titleColor', 'descriptionColor', 'featuresColor', 'titleSize', 'descriptionSize'].forEach(id => {
+            document.getElementById(id).addEventListener('change', handleSubmit);
         });
     </script>
 </body>
