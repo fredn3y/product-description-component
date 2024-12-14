@@ -372,26 +372,23 @@
             const titleSize = document.getElementById('titleSize').value;
             const descriptionSize = document.getElementById('descriptionSize').value;
             
-            // Generate custom styles
-            const customStyles = fontFamily || titleColor || descriptionColor || featuresColor || titleSize || descriptionSize
-                ? `
-    <style>
-        product-description {
-            ${fontFamily ? `--pd-font-family: ${fontFamily};` : ''}
-            ${titleColor ? `--pd-title-color: ${titleColor};` : ''}
-            ${titleSize ? `--pd-title-font-size: ${titleSize}px;` : ''}
-            ${descriptionColor ? `--pd-description-color: ${descriptionColor};` : ''}
-            ${descriptionSize ? `--pd-description-font-size: ${descriptionSize}px;` : ''}
-            ${featuresColor ? `--pd-features-color: ${featuresColor};` : ''}
-        }
-    </style>`
-                : '';
-            
             // Generate code
             const code = `<!-- Copy and paste this code wherever you want the product description to appear -->
 <script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/dist/product-description.min.js"><\/script>
 
-${customStyles}
+<!-- Set global styles for all product descriptions -->
+<script>
+    // Optional: Set global styles for all product-description components
+    ProductDescription.setGlobalStyles({
+        ${fontFamily ? `fontFamily: ${JSON.stringify(fontFamily)},` : ''}
+        ${titleColor ? `titleColor: ${JSON.stringify(titleColor)},` : ''}
+        ${titleSize ? `titleFontSize: "${titleSize}px",` : ''}
+        ${descriptionColor ? `descriptionColor: ${JSON.stringify(descriptionColor)},` : ''}
+        ${descriptionSize ? `descriptionFontSize: "${descriptionSize}px",` : ''}
+        ${featuresColor ? `featuresColor: ${JSON.stringify(featuresColor)}` : ''}
+    });
+</script>
+
 <!-- Use the component -->
 <product-description
     title="${title}"
@@ -406,9 +403,23 @@ ${customStyles}
             // Update code output
             document.getElementById('codeOutput').textContent = code;
             
-            // Update live preview
+            // Update live preview by applying global styles
+            if (fontFamily || titleColor || descriptionColor || featuresColor || titleSize || descriptionSize) {
+                ProductDescription.setGlobalStyles({
+                    fontFamily: fontFamily || undefined,
+                    titleColor: titleColor || undefined,
+                    titleFontSize: titleSize ? `${titleSize}px` : undefined,
+                    descriptionColor: descriptionColor || undefined,
+                    descriptionFontSize: descriptionSize ? `${descriptionSize}px` : undefined,
+                    featuresColor: featuresColor || undefined
+                });
+            } else {
+                ProductDescription.resetGlobalStyles();
+            }
+
+            // Update preview container
             const previewContainer = document.getElementById('previewContainer');
-            previewContainer.innerHTML = customStyles + `
+            previewContainer.innerHTML = `
 <product-description
     title="${title}"
     description="${description}"${imageUrl ? `

@@ -37,7 +37,7 @@ const n = { default: "\n    .product-container {\n      background: white;\n    
       font-family: 'Georgia', serif;
     }
   `, "feature-heavy": '\n    .product-container {\n      background: white;\n      border-radius: 8px;\n      box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n      padding: 32px;\n      max-width: 1200px;\n      margin: 0 auto;\n    }\n\n    .product-intro {\n      margin-bottom: 40px;\n      color: #374151;\n      font-size: 1.125rem;\n      line-height: 1.75;\n    }\n\n    .key-features-section {\n      margin: 40px 0;\n    }\n\n    .key-features-section h2 {\n      font-size: 2rem;\n      font-weight: 600;\n      color: #1f2937;\n      margin-bottom: 24px;\n    }\n\n    .key-features-grid {\n      display: grid;\n      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));\n      gap: 24px;\n      margin-bottom: 40px;\n    }\n\n    .key-feature-item {\n      padding: 20px;\n      border: 1px solid #e5e7eb;\n      border-radius: 8px;\n      display: flex;\n      align-items: center;\n      gap: 12px;\n    }\n\n    .key-feature-item i {\n      font-size: 1.5rem;\n      color: #3b82f6;\n    }\n\n    .flex-sections {\n      display: flex;\n      flex-direction: column;\n      gap: 40px;\n      margin: 40px 0;\n    }\n\n    .flex-section {\n      display: flex;\n      align-items: center;\n      gap: 40px;\n    }\n\n    .flex-section:nth-child(even) {\n      flex-direction: row-reverse;\n    }\n\n    .flex-section-content {\n      flex: 1;\n    }\n\n    .flex-section-image {\n      flex: 1;\n      border-radius: 8px;\n      overflow: hidden;\n    }\n\n    .flex-section-image img {\n      width: 100%;\n      height: auto;\n      display: block;\n    }\n\n    .specs-table {\n      width: 100%;\n      margin: 40px 0;\n      border-collapse: separate;\n      border-spacing: 0;\n    }\n\n    .specs-table h2 {\n      font-size: 2rem;\n      font-weight: 600;\n      color: #1f2937;\n      margin-bottom: 24px;\n    }\n\n    .specs-row {\n      display: grid;\n      grid-template-columns: repeat(2, 1fr);\n      border-bottom: 1px solid #e5e7eb;\n    }\n\n    .specs-cell {\n      padding: 16px;\n      display: flex;\n      align-items: center;\n      gap: 8px;\n    }\n\n    .specs-cell i {\n      color: #6b7280;\n    }\n\n    .specs-label {\n      font-weight: 500;\n      color: #374151;\n    }\n\n    .specs-value {\n      color: #6b7280;\n    }\n\n    .contents-section {\n      margin: 40px 0;\n    }\n\n    .contents-section h2 {\n      font-size: 2rem;\n      font-weight: 600;\n      color: #1f2937;\n      margin-bottom: 24px;\n    }\n\n    .contents-list {\n      list-style: none;\n      padding: 0;\n      margin: 0;\n    }\n\n    .contents-item {\n      padding: 12px 0;\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      color: #374151;\n    }\n\n    .contents-item::before {\n      content: "✓";\n      color: #10b981;\n      font-weight: bold;\n    }\n\n    @media (max-width: 768px) {\n      .flex-section {\n        flex-direction: column !important;\n      }\n\n      .key-features-grid {\n        grid-template-columns: 1fr;\n      }\n\n      .specs-row {\n        grid-template-columns: 1fr;\n      }\n    }\n  ' };
-class e extends HTMLElement {
+const _e = class _e extends HTMLElement {
   constructor() {
     super();
     __publicField(this, "_content");
@@ -94,6 +94,7 @@ class e extends HTMLElement {
   }
   render() {
     const n2 = `
+      ${_e.globalStyles}
       :host {
         display: block;
         font-family: var(--pd-font-family, system-ui, -apple-system, sans-serif);
@@ -276,7 +277,28 @@ class e extends HTMLElement {
       `;
     }
   }
-}
+  static setGlobalStyles(n2) {
+    this.globalStyles = `
+      :host {
+        ${n2.fontFamily ? `--pd-font-family: ${n2.fontFamily};` : ""}
+        ${n2.titleColor ? `--pd-title-color: ${n2.titleColor};` : ""}
+        ${n2.titleFontSize ? `--pd-title-font-size: ${n2.titleFontSize};` : ""}
+        ${n2.descriptionColor ? `--pd-description-color: ${n2.descriptionColor};` : ""}
+        ${n2.descriptionFontSize ? `--pd-description-font-size: ${n2.descriptionFontSize};` : ""}
+        ${n2.featuresColor ? `--pd-features-color: ${n2.featuresColor};` : ""}
+      }
+    `, document.querySelectorAll("product-description").forEach((n3) => {
+      n3 instanceof _e && n3.render();
+    });
+  }
+  static resetGlobalStyles() {
+    this.globalStyles = "", document.querySelectorAll("product-description").forEach((n2) => {
+      n2 instanceof _e && n2.render();
+    });
+  }
+};
+__publicField(_e, "globalStyles", "");
+let e = _e;
 customElements.define("product-description", e);
 export {
   e as ProductDescription

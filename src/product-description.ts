@@ -6,6 +6,7 @@ export class ProductDescription extends HTMLElement {
   private _error: string | null;
   private _theme: ThemeName;
   private _shadow: ShadowRoot;
+  private static globalStyles: string = '';
 
   constructor() {
     super();
@@ -100,6 +101,7 @@ export class ProductDescription extends HTMLElement {
 
   private render(): void {
     const styles = `
+      ${ProductDescription.globalStyles}
       :host {
         display: block;
         font-family: var(--pd-font-family, system-ui, -apple-system, sans-serif);
@@ -297,6 +299,45 @@ export class ProductDescription extends HTMLElement {
         <div class="error-message">${this._error}</div>
       `;
     }
+  }
+
+  // Add static method to set global styles
+  static setGlobalStyles(styles: {
+    fontFamily?: string;
+    titleColor?: string;
+    titleFontSize?: string;
+    descriptionColor?: string;
+    descriptionFontSize?: string;
+    featuresColor?: string;
+  }): void {
+    this.globalStyles = `
+      :host {
+        ${styles.fontFamily ? `--pd-font-family: ${styles.fontFamily};` : ''}
+        ${styles.titleColor ? `--pd-title-color: ${styles.titleColor};` : ''}
+        ${styles.titleFontSize ? `--pd-title-font-size: ${styles.titleFontSize};` : ''}
+        ${styles.descriptionColor ? `--pd-description-color: ${styles.descriptionColor};` : ''}
+        ${styles.descriptionFontSize ? `--pd-description-font-size: ${styles.descriptionFontSize};` : ''}
+        ${styles.featuresColor ? `--pd-features-color: ${styles.featuresColor};` : ''}
+      }
+    `;
+    
+    // Update all existing instances
+    document.querySelectorAll('product-description').forEach((element) => {
+      if (element instanceof ProductDescription) {
+        element.render();
+      }
+    });
+  }
+
+  // Add static method to reset global styles
+  static resetGlobalStyles(): void {
+    this.globalStyles = '';
+    // Update all existing instances
+    document.querySelectorAll('product-description').forEach((element) => {
+      if (element instanceof ProductDescription) {
+        element.render();
+      }
+    });
   }
 }
 

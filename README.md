@@ -20,6 +20,41 @@ A customizable web component for product descriptions with multiple themes and s
 </product-description>
 ```
 
+## Global Styling
+
+You can set styles for all product description components on your page using the `setGlobalStyles` method:
+
+```html
+<script>
+    ProductDescription.setGlobalStyles({
+        fontFamily: "'Roboto', sans-serif",
+        titleColor: "#2563eb",
+        titleFontSize: "32px",
+        descriptionColor: "#4b5563",
+        descriptionFontSize: "16px",
+        featuresColor: "#374151"
+    });
+</script>
+```
+
+To reset global styles:
+```html
+<script>
+    ProductDescription.resetGlobalStyles();
+</script>
+```
+
+### Available Global Style Options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| fontFamily | string | Main font family for all text |
+| titleColor | string | Color for titles |
+| titleFontSize | string | Font size for titles (with units) |
+| descriptionColor | string | Color for description text |
+| descriptionFontSize | string | Font size for descriptions (with units) |
+| featuresColor | string | Color for feature items |
+
 ## Themes
 
 The component comes with several built-in themes:
@@ -43,9 +78,9 @@ The component comes with several built-in themes:
 | price | String | Product price | No |
 | currency | String | Currency code (USD, EUR, etc.) | No |
 
-## CSS Customization
+## CSS Variables
 
-The component supports customization through CSS variables. Here are the available variables with their default values:
+The component also supports individual customization through CSS variables:
 
 | CSS Variable | Default Value | Description |
 |-------------|---------------|-------------|
@@ -64,7 +99,7 @@ The component supports customization through CSS variables. Here are the availab
 | --pd-error-color | #dc2626 | Error message text color |
 | --pd-error-bg | #fee2e2 | Error message background color |
 
-### Example of CSS Customization
+### Example of CSS Variable Usage
 
 ```html
 <style>
@@ -87,8 +122,18 @@ The component supports customization through CSS variables. Here are the availab
 
 ## Examples
 
-### Modern Theme
+### Modern Theme with Global Styles
 ```html
+<!-- Set global styles first -->
+<script>
+    ProductDescription.setGlobalStyles({
+        fontFamily: "'Poppins', sans-serif",
+        titleColor: "#2563eb",
+        titleFontSize: "32px"
+    });
+</script>
+
+<!-- Then use components -->
 <product-description
     title="Premium Wireless Headphones"
     description="Experience crystal-clear audio with our premium wireless headphones."
@@ -96,10 +141,7 @@ The component supports customization through CSS variables. Here are the availab
     image-url="headphones.jpg"
     theme="modern">
 </product-description>
-```
 
-### Dark Theme
-```html
 <product-description
     title="Gaming Mouse"
     description="Professional gaming mouse with RGB lighting."
