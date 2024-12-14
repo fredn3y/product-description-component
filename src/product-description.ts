@@ -200,6 +200,23 @@ export class ProductDescription extends HTMLElement {
         `;
       } else {
         console.log('Using simple template');
+        console.log('Specifications:', data.specifications);
+        console.log('Contents:', data.contents);
+        
+        // Debug the template generation
+        const specRows = Object.entries(data.specifications ?? {}).map(([key, value]) => `
+          <div class="specs-row">
+            <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+            <div class="specs-value">${value}</div>
+          </div>
+        `).join('');
+        console.log('Generated spec rows:', specRows);
+
+        const contentItems = (data.contents?.colors ?? []).map((item: string) => `
+          <li class="contents-item">${item}</li>
+        `).join('');
+        console.log('Generated content items:', contentItems);
+
         content = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
@@ -213,12 +230,7 @@ export class ProductDescription extends HTMLElement {
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
-                ${Object.entries(data.specifications ?? {}).map(([key, value]) => `
-                  <div class="specs-row">
-                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
-                    <div class="specs-value">${value}</div>
-                  </div>
-                `).join('')}
+                ${specRows}
               </div>
             </section>
 
@@ -226,15 +238,13 @@ export class ProductDescription extends HTMLElement {
             <section class="contents-section">
               <h2 class="section-title">Package Contents</h2>
               <ul class="contents-list">
-                ${(data.contents?.colors ?? []).map((item: string) => `
-                  <li class="contents-item">${item}</li>
-                `).join('')}
+                ${contentItems}
               </ul>
             </section>
           </article>
         `;
       }
-      console.log('Generated content:', content);
+      console.log('Final generated content:', content);
 
       this._shadow.innerHTML = `
         <style>${styles}</style>
