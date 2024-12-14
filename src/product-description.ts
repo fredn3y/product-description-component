@@ -96,6 +96,10 @@ export class ProductDescription extends HTMLElement {
   }
 
   private getThemeStyles(): string {
+    if (!this._theme || !themes[this._theme]) {
+      console.warn(`Theme "${this._theme}" not found, defaulting to simple theme`);
+      return themes['simple'];
+    }
     return themes[this._theme];
   }
 

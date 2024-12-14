@@ -14,8 +14,8 @@ const _t = class _t extends HTMLElement {
   static get observedAttributes() {
     return ["title", "description", "features", "image-url", "theme", "price", "currency", "data"];
   }
-  attributeChangedCallback(n2, t2, i) {
-    t2 !== i && ("theme" === n2 && this.isValidTheme(i) ? this._theme = i : this._content[n2] = i ?? void 0, this.render());
+  attributeChangedCallback(n2, t2, e) {
+    t2 !== e && ("theme" === n2 && this.isValidTheme(e) ? this._theme = e : this._content[n2] = e ?? void 0, this.render());
   }
   isValidTheme(n2) {
     return null !== n2 && ["feature-heavy", "simple"].includes(n2);
@@ -55,12 +55,12 @@ const _t = class _t extends HTMLElement {
     }
   }
   getThemeStyles() {
-    return n[this._theme];
+    return this._theme && n[this._theme] ? n[this._theme] : (console.warn(`Theme "${this._theme}" not found, defaulting to simple theme`), n.simple);
   }
   render() {
     var _a, _b;
     console.log("Rendering with theme:", this._theme), console.log("Theme styles:", n[this._theme]);
-    const i = `
+    const e = `
       ${_t.globalStyles}
       :host {
         display: block;
@@ -95,8 +95,8 @@ const _t = class _t extends HTMLElement {
       console.log("Parsed data:", n2);
       const t2 = document.createElement("script");
       t2.type = "application/ld+json", t2.textContent = this.generateSchema(), document.head.appendChild(t2);
-      let e = "";
-      "feature-heavy" === this._theme ? (console.log("Using feature-heavy template"), e = `
+      let i = "";
+      "feature-heavy" === this._theme ? (console.log("Using feature-heavy template"), i = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ""}
             
@@ -145,7 +145,7 @@ const _t = class _t extends HTMLElement {
               </ul>
             </section>
           </article>
-        `) : (console.log("Using simple template"), e = `
+        `) : (console.log("Using simple template"), i = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ""}
             
@@ -194,15 +194,15 @@ const _t = class _t extends HTMLElement {
               </ul>
             </section>
           </article>
-        `), console.log("Final generated content:", e), this._shadow.innerHTML = `
-        <style>${i}</style>
+        `), console.log("Final generated content:", i), this._shadow.innerHTML = `
+        <style>${e}</style>
         ${this.generateFallbackContent()}
-        ${e}
+        ${i}
       `;
     } catch (n2) {
       const t2 = n2 instanceof Error ? n2.message : "Unknown error";
       this._error = `Error rendering product description: ${t2}`, console.error("Render error:", this._error), this._shadow.innerHTML = `
-        <style>${i}</style>
+        <style>${e}</style>
         <div class="error-message">${this._error}</div>
       `;
     }
