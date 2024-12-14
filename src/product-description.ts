@@ -200,30 +200,13 @@ export class ProductDescription extends HTMLElement {
         `;
       } else {
         console.log('Using simple template');
-        console.log('Specifications:', data.specifications);
-        console.log('Contents:', data.contents);
-        
-        // Debug the template generation
-        const specRows = Object.entries(data.specifications ?? {}).map(([key, value]) => `
-          <div class="specs-row">
-            <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
-            <div class="specs-value">${value}</div>
-          </div>
-        `).join('');
-        console.log('Generated spec rows:', specRows);
-
-        const contentItems = (data.contents?.colors ?? []).map((item: string) => `
-          <li class="contents-item">${item}</li>
-        `).join('');
-        console.log('Generated content items:', contentItems);
-
         content = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${data.description || data.introduction || data.productName || ''}
+              ${data.description || data.introduction || data.productName || this._content.description || ''}
             </div>
 
             <!-- Product Highlights Section -->
@@ -247,7 +230,12 @@ export class ProductDescription extends HTMLElement {
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
-                ${specRows}
+                ${Object.entries(data.specifications ?? {}).map(([key, value]) => `
+                  <div class="specs-row">
+                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                    <div class="specs-value">${value}</div>
+                  </div>
+                `).join('')}
               </div>
             </section>
 
@@ -255,7 +243,9 @@ export class ProductDescription extends HTMLElement {
             <section class="contents-section">
               <h2 class="section-title">Package Contents</h2>
               <ul class="contents-list">
-                ${contentItems}
+                ${(data.contents?.colors ?? []).map((item: string) => `
+                  <li class="contents-item">${item}</li>
+                `).join('')}
               </ul>
             </section>
           </article>

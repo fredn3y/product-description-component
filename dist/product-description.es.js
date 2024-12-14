@@ -14,8 +14,8 @@ const _t = class _t extends HTMLElement {
   static get observedAttributes() {
     return ["title", "description", "features", "image-url", "theme", "price", "currency", "data"];
   }
-  attributeChangedCallback(n2, t2, e) {
-    t2 !== e && ("theme" === n2 && this.isValidTheme(e) ? this._theme = e : this._content[n2] = e ?? void 0, this.render());
+  attributeChangedCallback(n2, t2, i) {
+    t2 !== i && ("theme" === n2 && this.isValidTheme(i) ? this._theme = i : this._content[n2] = i ?? void 0, this.render());
   }
   isValidTheme(n2) {
     return null !== n2 && ["feature-heavy", "simple"].includes(n2);
@@ -60,7 +60,7 @@ const _t = class _t extends HTMLElement {
   render() {
     var _a, _b;
     console.log("Rendering with theme:", this._theme), console.log("Theme styles:", n[this._theme]);
-    const e = `
+    const i = `
       ${_t.globalStyles}
       :host {
         display: block;
@@ -95,8 +95,8 @@ const _t = class _t extends HTMLElement {
       console.log("Parsed data:", n2);
       const t2 = document.createElement("script");
       t2.type = "application/ld+json", t2.textContent = this.generateSchema(), document.head.appendChild(t2);
-      let i = "";
-      if ("feature-heavy" === this._theme) console.log("Using feature-heavy template"), i = `
+      let e = "";
+      "feature-heavy" === this._theme ? (console.log("Using feature-heavy template"), e = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ""}
             
@@ -145,39 +145,26 @@ const _t = class _t extends HTMLElement {
               </ul>
             </section>
           </article>
-        `;
-      else {
-        console.log("Using simple template"), console.log("Specifications:", n2.specifications), console.log("Contents:", n2.contents);
-        const t3 = Object.entries(n2.specifications ?? {}).map(([n3, t4]) => `
-          <div class="specs-row">
-            <div class="specs-label">${n3.charAt(0).toUpperCase() + n3.slice(1)}</div>
-            <div class="specs-value">${t4}</div>
-          </div>
-        `).join("");
-        console.log("Generated spec rows:", t3);
-        const e2 = (((_b = n2.contents) == null ? void 0 : _b.colors) ?? []).map((n3) => `
-          <li class="contents-item">${n3}</li>
-        `).join("");
-        console.log("Generated content items:", e2), i = `
+        `) : (console.log("Using simple template"), e = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ""}
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${n2.description || n2.introduction || n2.productName || ""}
+              ${n2.description || n2.introduction || n2.productName || this._content.description || ""}
             </div>
 
             <!-- Product Highlights Section -->
             <section class="product-highlights">
-              ${Object.entries(n2.productHighlights || {}).map(([n3, t4]) => `
+              ${Object.entries(n2.productHighlights || {}).map(([n3, t3]) => `
                 <div class="highlight-block">
                   <div class="highlight-content">
-                    <h3 class="highlight-title">${t4.title}</h3>
-                    <p class="highlight-description">${t4.description}</p>
+                    <h3 class="highlight-title">${t3.title}</h3>
+                    <p class="highlight-description">${t3.description}</p>
                   </div>
-                  ${t4.image ? `
+                  ${t3.image ? `
                     <div class="highlight-image">
-                      <img src="${t4.image}" alt="${t4.title}" loading="lazy">
+                      <img src="${t3.image}" alt="${t3.title}" loading="lazy">
                     </div>
                   ` : ""}
                 </div>
@@ -188,7 +175,12 @@ const _t = class _t extends HTMLElement {
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
-                ${t3}
+                ${Object.entries(n2.specifications ?? {}).map(([n3, t3]) => `
+                  <div class="specs-row">
+                    <div class="specs-label">${n3.charAt(0).toUpperCase() + n3.slice(1)}</div>
+                    <div class="specs-value">${t3}</div>
+                  </div>
+                `).join("")}
               </div>
             </section>
 
@@ -196,21 +188,21 @@ const _t = class _t extends HTMLElement {
             <section class="contents-section">
               <h2 class="section-title">Package Contents</h2>
               <ul class="contents-list">
-                ${e2}
+                ${(((_b = n2.contents) == null ? void 0 : _b.colors) ?? []).map((n3) => `
+                  <li class="contents-item">${n3}</li>
+                `).join("")}
               </ul>
             </section>
           </article>
-        `;
-      }
-      console.log("Final generated content:", i), this._shadow.innerHTML = `
-        <style>${e}</style>
+        `), console.log("Final generated content:", e), this._shadow.innerHTML = `
+        <style>${i}</style>
         ${this.generateFallbackContent()}
-        ${i}
+        ${e}
       `;
     } catch (n2) {
       const t2 = n2 instanceof Error ? n2.message : "Unknown error";
       this._error = `Error rendering product description: ${t2}`, console.error("Render error:", this._error), this._shadow.innerHTML = `
-        <style>${e}</style>
+        <style>${i}</style>
         <div class="error-message">${this._error}</div>
       `;
     }
