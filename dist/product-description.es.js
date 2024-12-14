@@ -130,7 +130,7 @@ const _t = class _t extends HTMLElement {
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${this._content.description || ""}
+              ${t2.introduction || this._content.description || ""}
             </div>
 
             <!-- Product Highlights Section -->
@@ -179,19 +179,13 @@ const _t = class _t extends HTMLElement {
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${t2.introduction || t2.productName || this._content.description || ""}
+              ${t2.introduction || this._content.description || ""}
             </div>
 
             <!-- Specifications Section -->
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
-                ${Object.entries(t2.productHighlights || {}).map(([n3, t3]) => `
-                  <div class="specs-row">
-                    <div class="specs-label">${t3.title}</div>
-                    <div class="specs-value">${t3.description}</div>
-                  </div>
-                `).join("")}
                 ${Object.entries(t2.specifications || {}).map(([n3, t3]) => `
                   <div class="specs-row">
                     <div class="specs-label">${n3.charAt(0).toUpperCase() + n3.slice(1)}</div>
