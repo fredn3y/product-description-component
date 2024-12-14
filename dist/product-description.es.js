@@ -58,7 +58,7 @@ const _t = class _t extends HTMLElement {
     return n[this._theme] || n.default;
   }
   render() {
-    var _a;
+    var _a, _b;
     const n2 = `
       ${_t.globalStyles}
       :host {
@@ -176,23 +176,34 @@ const _t = class _t extends HTMLElement {
         ` : `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ""}
-            ${this._content["image-url"] ? `
-              <img 
-                class="product-image" 
-                src="${this._content["image-url"]}" 
-                alt="${this._content.title || "Product image"}"
-                loading="lazy"
-                itemprop="image"
-              >
-            ` : ""}
-            <div class="product-content">
-              ${this._content.title ? `
-                <h2 class="product-title" itemprop="name">${this._content.title}</h2>
-              ` : ""}
-              ${this._content.description ? `
-                <p class="product-description" itemprop="description">${this._content.description}</p>
-              ` : ""}
+            
+            <!-- Introduction Section -->
+            <div class="product-intro" itemprop="description">
+              ${t2.introduction || this._content.description || ""}
             </div>
+
+            <!-- Specifications Section -->
+            <section class="specifications-section">
+              <h2 class="section-title">Features & Specifications</h2>
+              <div class="specs-table">
+                ${Object.entries(t2.specifications || {}).map(([n3, t3]) => `
+                  <div class="specs-row">
+                    <div class="specs-label">${n3.charAt(0).toUpperCase() + n3.slice(1)}</div>
+                    <div class="specs-value">${t3}</div>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+
+            <!-- Contents Section -->
+            <section class="contents-section">
+              <h2 class="section-title">Package Contents</h2>
+              <ul class="contents-list">
+                ${(((_b = t2.contents) == null ? void 0 : _b.colors) || []).map((n3) => `
+                  <li class="contents-item">${n3}</li>
+                `).join("")}
+              </ul>
+            </section>
           </article>
         `, this._shadow.innerHTML = `
         <style>${n2}</style>

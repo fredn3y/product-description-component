@@ -42,14 +42,18 @@ Add this code to your HTML file:
 
 ## Themes
 
-The component comes with six built-in themes:
+The component comes with two built-in themes:
 
-1. `default` - Clean and simple layout
-2. `modern` - Contemporary design with subtle shadows
-3. `minimal` - Minimalistic design focusing on content
-4. `dark` - Dark mode optimized theme
-5. `elegant` - Sophisticated design with serif fonts
-6. `feature-heavy` - Rich layout with sections for highlights, specifications, and contents
+1. `feature-heavy` - Rich layout with sections for:
+   - Introduction
+   - Product Highlights (with images)
+   - Features & Specifications (table)
+   - Package Contents (styled list)
+
+2. `simple` - Clean, minimalist layout with:
+   - Introduction
+   - Features & Specifications (2-column table)
+   - Package Contents (bullet list)
 
 ## Customization
 

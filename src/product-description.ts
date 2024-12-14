@@ -225,27 +225,38 @@ export class ProductDescription extends HTMLElement {
           </article>
         `;
       } else {
-        // Original layout for other themes
+        // Simple theme layout
         content = `
           <article class="product-container" itemscope itemtype="https://schema.org/Product">
             ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
-            ${this._content['image-url'] ? `
-              <img 
-                class="product-image" 
-                src="${this._content['image-url']}" 
-                alt="${this._content.title || 'Product image'}"
-                loading="lazy"
-                itemprop="image"
-              >
-            ` : ''}
-            <div class="product-content">
-              ${this._content.title ? `
-                <h2 class="product-title" itemprop="name">${this._content.title}</h2>
-              ` : ''}
-              ${this._content.description ? `
-                <p class="product-description" itemprop="description">${this._content.description}</p>
-              ` : ''}
+            
+            <!-- Introduction Section -->
+            <div class="product-intro" itemprop="description">
+              ${data.introduction || this._content.description || ''}
             </div>
+
+            <!-- Specifications Section -->
+            <section class="specifications-section">
+              <h2 class="section-title">Features & Specifications</h2>
+              <div class="specs-table">
+                ${Object.entries(data.specifications || {}).map(([key, value]) => `
+                  <div class="specs-row">
+                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                    <div class="specs-value">${value}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </section>
+
+            <!-- Contents Section -->
+            <section class="contents-section">
+              <h2 class="section-title">Package Contents</h2>
+              <ul class="contents-list">
+                ${(data.contents?.colors || []).map((item: string) => `
+                  <li class="contents-item">${item}</li>
+                `).join('')}
+              </ul>
+            </section>
           </article>
         `;
       }
