@@ -1,4 +1,4 @@
-import type { ProductContent, ThemeName, ProductSchema, ProductData } from './types';
+import type { ProductContent, ThemeName, ProductSchema, ProductData, ProductHighlight } from './types';
 import { themes } from './themes';
 
 export class ProductDescription extends HTMLElement {
@@ -185,7 +185,7 @@ export class ProductDescription extends HTMLElement {
 
             <!-- Product Highlights Section -->
             <section class="product-highlights">
-              ${Object.entries(data.productHighlights || {}).map(([_key, highlight]) => `
+              ${Object.entries(data.productHighlights || {}).map(([_key, highlight]: [string, ProductHighlight]) => `
                 <div class="highlight-block">
                   <div class="highlight-content">
                     <h3 class="highlight-title">${highlight.title}</h3>

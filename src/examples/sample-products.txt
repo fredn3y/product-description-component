@@ -15,7 +15,7 @@
     "colors": {
       "title": "Vibrant Color Selection",
       "description": "The pack includes twelve distinct color variations, from classic Tortoiseshell and Abalone to vibrant Moto finishes in Red, Blue, Green, and Purple. This diverse selection allows players to express their personal style while ensuring high visibility during performance.",
-      "image": "https://images.unsplash.com/photo-1619883079978-98f35f8d0f1f?w=800&h=600&fit=crop"
+      "image": "https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?w=800&h=600&fit=crop"
     }
   },
   "specifications": {

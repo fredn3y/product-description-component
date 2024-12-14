@@ -282,52 +282,75 @@
                     : '';
                 
                 // Generate code
-                const code = `<!-- Copy and paste this code wherever you want the product description to appear -->
-
-${fontLink}<!-- Component styles -->
-<style>
-    product-description {
-        /* Font family - explicitly set */
-        ${font ? `--pd-font-family: ${font} !important;` : '/* Using theme default font */'}
-        
-        /* Colors - these will inherit from your site's colors */
-        --pd-title-color: inherit;
-        --pd-description-color: inherit;
-        --pd-features-color: inherit;
-    }
-</style>
-
-<!-- Component script -->
-<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/dist/product-description.min.js"><\/script>
-
-<!-- Use the component -->
-<product-description
-    title="${title}"
-    description="${description}"
-    data='${JSON.stringify(data)}'
-    theme="${theme}">
-</product-description>`;
+                const code = [
+                    '<!-- Copy and paste this code wherever you want the product description to appear -->',
+                    '',
+                    fontLink,
+                    '<!-- Component styles -->',
+                    '<style>',
+                    '    product-description {',
+                    '        /* Font family - explicitly set */',
+                    font ? `        --pd-font-family: ${font} !important;` : '        /* Using theme default font */',
+                    '',
+                    '        /* Colors - these will inherit from your site\'s colors */',
+                    '        --pd-title-color: inherit;',
+                    '        --pd-description-color: inherit;',
+                    '        --pd-features-color: inherit;',
+                    '    }',
+                    '</style>',
+                    '',
+                    '<!-- Component script -->',
+                    '<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@v1.0.0/dist/product-description.min.js"><\/script>',
+                    '',
+                    '<!-- Use the component -->',
+                    '<product-description',
+                    `    title="${title}"`,
+                    `    description="${description}"`,
+                    `    data='${JSON.stringify(data)}'`,
+                    `    theme="${theme}">`,
+                    '</product-description>'
+                ].join('\n');
                 
                 // Update code output
                 document.getElementById('codeOutput').textContent = code;
                 
                 // Update preview
                 const previewContainer = document.getElementById('previewContainer');
-                previewContainer.innerHTML = `
-${fontLink}<style>
-    product-description {
-        ${font ? `--pd-font-family: ${font} !important;` : ''}
-        --pd-title-color: inherit;
-        --pd-description-color: inherit;
-        --pd-features-color: inherit;
-    }
-</style>
-<product-description
-    title="${title}"
-    description="${description}"
-    data='${JSON.stringify(data)}'
-    theme="${theme}">
-</product-description>`;
+                
+                // Create and append font link if needed
+                if (fontLink) {
+                    const linkElement = document.createElement('link');
+                    linkElement.rel = 'stylesheet';
+                    linkElement.href = `https://fonts.googleapis.com/css2?family=${selectedFont.replace(' ', '+')}&display=swap`;
+                    previewContainer.appendChild(linkElement);
+                }
+
+                // Create and append style element
+                const styleElement = document.createElement('style');
+                styleElement.textContent = `
+                    product-description {
+                        ${font ? `--pd-font-family: ${font} !important;` : ''}
+                        --pd-title-color: inherit;
+                        --pd-description-color: inherit;
+                        --pd-features-color: inherit;
+                    }
+                `;
+                previewContainer.appendChild(styleElement);
+
+                // Create and append product description element
+                const productElement = document.createElement('product-description');
+                productElement.setAttribute('title', title);
+                productElement.setAttribute('description', description);
+                productElement.setAttribute('data', JSON.stringify(data));
+                productElement.setAttribute('theme', theme);
+                
+                // Clear previous content and append new elements
+                previewContainer.innerHTML = '';
+                if (fontLink) {
+                    previewContainer.appendChild(linkElement);
+                }
+                previewContainer.appendChild(styleElement);
+                previewContainer.appendChild(productElement);
             } catch (error) {
                 showError('Invalid JSON format. Please check your input.');
             }
@@ -341,4 +364,4 @@ ${fontLink}<style>
         }
     </script>
 </body>
-</html> 
+</html>
