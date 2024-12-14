@@ -15,6 +15,7 @@ export const simpleTheme = `
     line-height: 1.6;
     color: var(--pd-description-color, #374151);
     margin-bottom: 40px;
+    max-width: 70ch;
   }
 
   /* Specifications Table */
@@ -27,6 +28,8 @@ export const simpleTheme = `
     font-weight: var(--pd-title-font-weight, 600);
     color: var(--pd-title-color, #1f2937);
     margin: 0 0 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
   }
 
   .specs-table {
@@ -35,11 +38,12 @@ export const simpleTheme = `
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     overflow: hidden;
+    background: white;
   }
 
   .specs-row {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(200px, 1fr) 2fr;
     border-bottom: 1px solid #e5e7eb;
   }
 
@@ -52,11 +56,13 @@ export const simpleTheme = `
     background: #f9fafb;
     font-weight: 500;
     color: var(--pd-title-color, #374151);
+    border-right: 1px solid #e5e7eb;
   }
 
   .specs-value {
     padding: 12px 16px;
     color: var(--pd-description-color, #4b5563);
+    line-height: 1.5;
   }
 
   /* Contents List */
@@ -68,19 +74,31 @@ export const simpleTheme = `
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
   }
 
   .contents-item {
-    padding: 8px 0;
+    padding: 12px 16px;
     color: var(--pd-description-color, #4b5563);
     display: flex;
     align-items: center;
     gap: 8px;
+    background: #f9fafb;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+  }
+
+  .contents-item:hover {
+    background: #f3f4f6;
   }
 
   .contents-item::before {
     content: "•";
     color: #6b7280;
+    font-size: 1.5em;
+    line-height: 1;
   }
 
   /* Responsive Design */
@@ -94,11 +112,12 @@ export const simpleTheme = `
     }
 
     .specs-label {
+      border-right: none;
       border-bottom: 1px solid #e5e7eb;
     }
 
-    .specs-row:last-child .specs-label {
-      border-bottom: 1px solid #e5e7eb;
+    .contents-list {
+      grid-template-columns: 1fr;
     }
   }
 `; 
