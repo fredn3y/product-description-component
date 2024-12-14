@@ -180,7 +180,7 @@ export class ProductDescription extends HTMLElement {
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${this._content.description || ''}
+              ${data.description || data.productName || this._content.description || ''}
             </div>
 
             <!-- Product Highlights Section -->
@@ -232,10 +232,10 @@ export class ProductDescription extends HTMLElement {
             
             <!-- Introduction Section -->
             <div class="product-intro" itemprop="description">
-              ${data.introduction || data.productName || this._content.description || ''}
+              ${data.description || ''}
             </div>
 
-            <!-- Specifications Section -->
+            <!-- Features & Specifications Section -->
             <section class="specifications-section">
               <h2 class="section-title">Features & Specifications</h2>
               <div class="specs-table">
@@ -243,12 +243,6 @@ export class ProductDescription extends HTMLElement {
                   <div class="specs-row">
                     <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
                     <div class="specs-value">${value}</div>
-                  </div>
-                `).join('')}
-                ${Object.entries(data.productHighlights || {}).map(([_key, highlight]: [string, ProductHighlight]) => `
-                  <div class="specs-row">
-                    <div class="specs-label">${highlight.title}</div>
-                    <div class="specs-value">${highlight.description}</div>
                   </div>
                 `).join('')}
               </div>

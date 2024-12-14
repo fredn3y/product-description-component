@@ -44,7 +44,7 @@ export interface ProductSpecifications {
 
 export interface ProductData {
   productName: string;
-  introduction: string;
+  description: string;
   productHighlights: {
     [key: string]: ProductHighlight;
   };
