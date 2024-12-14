@@ -1,42 +1,35 @@
 # Product Description Component
 
-A lightweight, customizable web component for displaying product descriptions on any website. Built with vanilla JavaScript and Web Components, this component provides a clean, modern design with zero dependencies.
+A customizable web component for product descriptions with multiple themes and styling options.
 
-## Quick Start
+## Installation
 
-Add the script to your page:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/product-description.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component@main/dist/product-description.min.js"></script>
 ```
 
-Use the component:
+## Usage
+
 ```html
 <product-description
-    title="Your Product"
-    description="Your product description"
+    title="Product Name"
+    description="Product description goes here"
     features='["Feature 1", "Feature 2", "Feature 3"]'
-    image-url="your-image.jpg"
+    image-url="path/to/image.jpg"
     theme="modern">
 </product-description>
 ```
 
-## Features
+## Themes
 
-- 🎨 5 Beautiful themes (modern, elegant, minimal, dark, default)
-- 🔒 Style isolation using Shadow DOM
-- 🎯 Easy integration with any website
-- ⚡ Zero dependencies
-- 🔄 Dynamic content updates
-- 🛠️ Customizable through attributes
-- 🌐 Cross-browser compatible
+The component comes with several built-in themes:
 
-## Available Themes
-
-1. **modern** - Neumorphic design with shadows and arrow bullets
-2. **elegant** - Serif typography with gradient accent bar
+1. **modern** - Sleek design with subtle shadows and gradients
+2. **elegant** - Sophisticated layout with serif typography
 3. **minimal** - Clean, borderless design with understated typography
 4. **dark** - Dark mode with light text and blue accents
 5. **default** - Simple and clean design
+6. **feature-heavy** - Detailed layout emphasizing product features
 
 ## Attributes
 
@@ -46,7 +39,51 @@ Use the component:
 | description | String | The main product description | Yes |
 | features | JSON String | Array of features | No |
 | image-url | String | URL to the product image | No |
-| theme | String | Theme name (default, modern, minimal, dark, elegant) | No |
+| theme | String | Theme name (default, modern, minimal, dark, elegant, feature-heavy) | No |
+| price | String | Product price | No |
+| currency | String | Currency code (USD, EUR, etc.) | No |
+
+## CSS Customization
+
+The component supports customization through CSS variables. Here are the available variables with their default values:
+
+| CSS Variable | Default Value | Description |
+|-------------|---------------|-------------|
+| --pd-font-family | system-ui, -apple-system, sans-serif | Main font family |
+| --pd-max-width | 800px | Maximum width of the component |
+| --pd-padding | 20px | Outer padding |
+| --pd-content-padding | 20px | Inner content padding |
+| --pd-image-max-height | 400px | Maximum height of product image |
+| --pd-title-color | inherit | Title text color |
+| --pd-title-font-size | inherit | Title font size |
+| --pd-title-font-weight | inherit | Title font weight |
+| --pd-description-color | inherit | Description text color |
+| --pd-description-font-size | 16px | Description font size |
+| --pd-description-line-height | 1.6 | Description line height |
+| --pd-features-color | inherit | Features text color |
+| --pd-error-color | #dc2626 | Error message text color |
+| --pd-error-bg | #fee2e2 | Error message background color |
+
+### Example of CSS Customization
+
+```html
+<style>
+  product-description {
+    --pd-font-family: 'Roboto', sans-serif;
+    --pd-title-color: #2563eb;
+    --pd-description-color: #4b5563;
+    --pd-features-color: #374151;
+  }
+</style>
+
+<product-description
+    title="Premium Wireless Headphones"
+    description="Experience crystal-clear audio with our premium wireless headphones."
+    features='["Active Noise Cancellation", "30-hour Battery Life", "Bluetooth 5.0"]'
+    image-url="headphones.jpg"
+    theme="modern">
+</product-description>
+```
 
 ## Examples
 
@@ -74,13 +111,9 @@ Use the component:
 
 ## Browser Support
 
-Supports all modern browsers that implement the Web Components standard:
-- Chrome
-- Firefox
-- Safari
-- Edge
+This component uses standard web components APIs and works in all modern browsers that support Custom Elements v1.
 
 ## License
 
-MIT License - Feel free to use in personal and commercial projects.
+MIT
   

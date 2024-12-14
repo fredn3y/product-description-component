@@ -102,10 +102,10 @@ export class ProductDescription extends HTMLElement {
     const styles = `
       :host {
         display: block;
-        font-family: system-ui, -apple-system, sans-serif;
-        max-width: 800px;
+        font-family: var(--pd-font-family, system-ui, -apple-system, sans-serif);
+        max-width: var(--pd-max-width, 800px);
         margin: 0 auto;
-        padding: 20px;
+        padding: var(--pd-padding, 20px);
         box-sizing: border-box;
       }
       .product-seo-content {
@@ -122,20 +122,24 @@ export class ProductDescription extends HTMLElement {
       .product-image {
         width: 100%;
         height: auto;
-        max-height: 400px;
+        max-height: var(--pd-image-max-height, 400px);
         object-fit: cover;
         display: block;
       }
       .product-content {
-        padding: 20px;
+        padding: var(--pd-content-padding, 20px);
       }
       .product-title {
         margin: 0 0 16px 0;
+        color: var(--pd-title-color, inherit);
+        font-size: var(--pd-title-font-size, inherit);
+        font-weight: var(--pd-title-font-weight, inherit);
       }
       .product-description {
-        font-size: 16px;
-        line-height: 1.6;
+        font-size: var(--pd-description-font-size, 16px);
+        line-height: var(--pd-description-line-height, 1.6);
         margin: 0 0 20px 0;
+        color: var(--pd-description-color, inherit);
       }
       .features-list {
         margin: 0;
@@ -144,11 +148,12 @@ export class ProductDescription extends HTMLElement {
       }
       .features-list li {
         margin: 8px 0;
+        color: var(--pd-features-color, inherit);
       }
       .error-message {
-        color: #dc2626;
+        color: var(--pd-error-color, #dc2626);
         padding: 10px;
-        background: #fee2e2;
+        background: var(--pd-error-bg, #fee2e2);
         border-radius: 4px;
         margin: 10px 0;
       }
