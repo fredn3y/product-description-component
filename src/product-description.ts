@@ -13,7 +13,7 @@ export class ProductDescription extends HTMLElement {
     this._shadow = this.attachShadow({ mode: 'open' });
     this._content = {};
     this._error = null;
-    this._theme = 'feature-heavy';
+    this._theme = 'simple';
     this.render();
   }
 
@@ -96,7 +96,7 @@ export class ProductDescription extends HTMLElement {
   }
 
   private getThemeStyles(): string {
-    return themes[this._theme] || themes.default;
+    return themes[this._theme];
   }
 
   private render(): void {

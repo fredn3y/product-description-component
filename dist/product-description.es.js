@@ -9,7 +9,7 @@ const _t = class _t extends HTMLElement {
     __publicField(this, "_error");
     __publicField(this, "_theme");
     __publicField(this, "_shadow");
-    this._shadow = this.attachShadow({ mode: "open" }), this._content = {}, this._error = null, this._theme = "feature-heavy", this.render();
+    this._shadow = this.attachShadow({ mode: "open" }), this._content = {}, this._error = null, this._theme = "simple", this.render();
   }
   static get observedAttributes() {
     return ["title", "description", "features", "image-url", "theme", "price", "currency", "data"];
@@ -55,7 +55,7 @@ const _t = class _t extends HTMLElement {
     }
   }
   getThemeStyles() {
-    return n[this._theme] || n.default;
+    return n[this._theme];
   }
   render() {
     var _a, _b;
