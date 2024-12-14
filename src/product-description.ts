@@ -1,5 +1,5 @@
 import type { ProductContent, ThemeName, ProductSchema } from './types';
-import { themes } from './themes/theme-styles';
+import { themes } from './themes';
 
 export class ProductDescription extends HTMLElement {
   private _content: ProductContent;
