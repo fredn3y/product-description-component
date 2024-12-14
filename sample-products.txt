@@ -1,0 +1,68 @@
+==== Premium Wireless Headphones ====
+Title: Premium Wireless Headphones
+Description: Experience crystal-clear audio with our premium wireless headphones. Featuring advanced noise cancellation technology and premium build quality, these headphones deliver an immersive listening experience for up to 30 hours on a single charge.
+Image URL: https://images.unsplash.com/photo-1505740420928-5e560c06d30e
+Features:
+- Active Noise Cancellation
+- 30-hour Battery Life
+- Bluetooth 5.0
+- Premium Memory Foam Ear Cups
+- Voice Assistant Integration
+Price: 299.99
+Currency: USD
+
+==== Smart Fitness Watch ====
+Title: Smart Fitness Watch Pro
+Description: Track your health and stay connected with our advanced fitness watch. Monitor your heart rate, sleep patterns, and daily activities while enjoying seamless smartphone integration and a stunning AMOLED display.
+Image URL: https://images.unsplash.com/photo-1523275335684-37898b6baf30
+Features:
+- Heart Rate Monitoring
+- Sleep Tracking
+- GPS Navigation
+- 5 ATM Water Resistance
+- 7-day Battery Life
+- Smartphone Notifications
+Price: 199.99
+Currency: USD
+
+==== Professional Coffee Maker ====
+Title: Barista Pro Coffee Machine
+Description: Bring café-quality coffee to your home with this professional-grade coffee maker. With precise temperature control, built-in grinder, and programmable settings, you'll enjoy perfect coffee every morning.
+Image URL: https://images.unsplash.com/photo-1495474472287-4d71bcdd2085
+Features:
+- Built-in Conical Burr Grinder
+- PID Temperature Control
+- 15 Bar Italian Pump
+- Steam Wand for Milk Frothing
+- Programmable Shot Timer
+- Large Water Tank
+Price: 799.99
+Currency: USD
+
+==== Gaming Mouse ====
+Title: Pro Gaming Mouse
+Description: Dominate your games with this high-performance gaming mouse. Featuring an ultra-precise sensor, customizable RGB lighting, and ergonomic design for extended gaming sessions.
+Image URL: https://images.unsplash.com/photo-1527814050087-3793815479db
+Features:
+- 16,000 DPI Optical Sensor
+- 8 Programmable Buttons
+- RGB Chroma Lighting
+- Ergonomic Right-handed Design
+- On-the-fly DPI Switching
+- 1ms Response Time
+Price: 79.99
+Currency: USD
+
+==== Minimalist Desk Lamp ====
+Title: Modern LED Desk Lamp
+Description: Illuminate your workspace with this sleek and modern LED desk lamp. With adjustable brightness levels, color temperatures, and a minimalist design, it's the perfect addition to any desk setup.
+Image URL: https://images.unsplash.com/photo-1534073828943-f801091bb18c
+Features:
+- Touch-sensitive Controls
+- 5 Brightness Levels
+- 3 Color Temperatures
+- USB Charging Port
+- Auto-off Timer
+- Flexible Arm
+Price: 49.99
+Currency: USD 

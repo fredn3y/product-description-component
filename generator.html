@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Description Generator</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .preview-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .feature-item input {
+            flex-grow: 1;
+        }
+        
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        button:hover {
+            background: #3182ce;
+        }
+        
+        .remove-feature {
+            background: #fc8181;
+        }
+        
+        .remove-feature:hover {
+            background: #f56565;
+        }
+        
+        .code-output {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .copy-button {
+            margin-top: 12px;
+            background: #48bb78;
+        }
+        
+        .copy-button:hover {
+            background: #38a169;
+        }
+        
+        .preview-container {
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+    </style>
+    
+    <!-- Load the component -->
+    <script src="product-description.min.js"></script>
+</head>
+<body>
+    <h1>Product Description Generator</h1>
+    
+    <div class="container">
+        <div class="form-section">
+            <form id="productForm">
+                <div class="form-group">
+                    <label for="title">Product Title</label>
+                    <input type="text" id="title" required placeholder="e.g., Premium Wireless Headphones">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Product Description</label>
+                    <textarea id="description" required placeholder="Enter a detailed product description..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="imageUrl">Image URL</label>
+                    <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
+                </div>
+                
+                <div class="form-group">
+                    <label>Features</label>
+                    <ul class="features-list" id="featuresList">
+                        <li class="feature-item">
+                            <input type="text" placeholder="Enter a feature">
+                            <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
+                        </li>
+                    </ul>
+                    <button type="button" onclick="addFeature()">Add Feature</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="theme">Theme</label>
+                    <select id="theme">
+                        <option value="default">Default</option>
+                        <option value="modern">Modern</option>
+                        <option value="minimal">Minimal</option>
+                        <option value="dark">Dark</option>
+                        <option value="elegant">Elegant</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="price">Price (Optional)</label>
+                    <input type="number" id="price" step="0.01" placeholder="e.g., 299.99">
+                </div>
+                
+                <div class="form-group">
+                    <label for="currency">Currency (Optional)</label>
+                    <select id="currency">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                        <option value="AUD">AUD</option>
+                    </select>
+                </div>
+                
+                <button type="submit">Generate Code</button>
+            </form>
+        </div>
+        
+        <div class="preview-section">
+            <h2>Generated Code</h2>
+            <div class="code-output" id="codeOutput">Fill out the form to generate code...</div>
+            <button class="copy-button" onclick="copyCode()">Copy Code</button>
+            
+            <h2>Live Preview</h2>
+            <div class="preview-container" id="previewContainer"></div>
+        </div>
+    </div>
+    
+    <script>
+        function addFeature() {
+            const featuresList = document.getElementById('featuresList');
+            const li = document.createElement('li');
+            li.className = 'feature-item';
+            li.innerHTML = `
+                <input type="text" placeholder="Enter a feature">
+                <button type="button" class="remove-feature" onclick="removeFeature(this)">×</button>
+            `;
+            featuresList.appendChild(li);
+        }
+        
+        function removeFeature(button) {
+            const featuresList = document.getElementById('featuresList');
+            if (featuresList.children.length > 1) {
+                button.parentElement.remove();
+            }
+        }
+        
+        function copyCode() {
+            const codeOutput = document.getElementById('codeOutput');
+            navigator.clipboard.writeText(codeOutput.textContent)
+                .then(() => alert('Code copied to clipboard!'))
+                .catch(err => console.error('Failed to copy code:', err));
+        }
+        
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Gather form data
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+            const theme = document.getElementById('theme').value;
+            const price = document.getElementById('price').value;
+            const currency = document.getElementById('currency').value;
+            
+            // Gather features
+            const features = [];
+            document.querySelectorAll('#featuresList input').forEach(input => {
+                if (input.value.trim()) {
+                    features.push(input.value.trim());
+                }
+            });
+            
+            // Generate code
+            const code = `<product-description
+    title="${title}"
+    description="${description}"${imageUrl ? `
+    image-url="${imageUrl}"` : ''}
+    features='${JSON.stringify(features)}'
+    theme="${theme}"${price ? `
+    price="${price}"
+    currency="${currency}"` : ''}>
+</product-description>`;
+            
+            // Update code output
+            document.getElementById('codeOutput').textContent = code;
+            
+            // Update live preview
+            const previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = code;
+        });
+    </script>
+</body>
+</html> 
