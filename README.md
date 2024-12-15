@@ -29,7 +29,7 @@ Add this code to your HTML file:
 </style>
 
 <!-- Component script -->
-<script src="https://cdn.jsdelivr.net/gh/fredn3y/product-description-component/dist/product-description.min.js"></script>
+<script src="https://product-description-component.pages.dev/product-description.min.js"></script>
 
 <!-- Use the component -->
 <product-description

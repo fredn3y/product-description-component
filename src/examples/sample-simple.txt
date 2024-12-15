@@ -1,0 +1,30 @@
+{
+  "productName": "Fender Celluloid 351 Guitar Picks - 12 Count Variety Pack",
+  "introduction": "The Fender Celluloid 351 Guitar Pick Pack offers musicians a versatile collection of premium plectrums in a stunning array of colors. This comprehensive 12-count variety pack features the classic 351 shape crafted from high-quality celluloid material, delivering consistent tone and comfortable playability for guitarists of all skill levels.",
+  "specifications": {
+    "material": "Celluloid", 
+    "thickness": "Thin",
+    "shape": "351 Shape",
+    "gripSurface": "Not included",
+    "bevel": "Not included", 
+    "brand": "Fender",
+    "packaging": "12-count variety pack"
+  },
+  "contents": {
+    "quantity": 12,
+    "colors": [
+      "Red Moto",
+      "Black Moto", 
+      "White Moto",
+      "Blue Moto",
+      "Ocean Turquoise Moto",
+      "Green Moto",
+      "Purple Moto",
+      "Abalone",
+      "Tortoiseshell",
+      "Confetti",
+      "Solid White",
+      "Solid Black"
+    ]
+  }
+}
