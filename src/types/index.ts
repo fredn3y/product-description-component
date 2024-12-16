@@ -55,3 +55,40 @@ export interface ProductData {
     colors?: string[];
   };
 }
+
+export interface ThemeManager {
+  getThemeStyles(theme: ThemeName): string;
+  validateTheme(theme: string | null): theme is ThemeName;
+}
+
+export interface ErrorHandler {
+  handleRenderError(error: unknown): string;
+  handleJSONParseError(error: unknown): void;
+}
+
+export interface SchemaGenerator {
+  generateProductSchema(): string;
+  generateFallbackContent(): string;
+}
+
+export interface Logger {
+  debug(message: string, ...args: unknown[]): void;
+  error(message: string, error?: unknown): void;
+  warn(message: string, ...args: unknown[]): void;
+}
+
+export interface TemplateGenerator {
+  generateHighlightsSection(data: ProductData): string;
+  generateSpecificationsSection(data: ProductData): string;
+  generateContentsSection(data: ProductData): string;
+  generateFullTemplate(data: ProductData): string;
+}
+
+export interface GlobalStyles {
+  fontFamily?: string;
+  titleColor?: string;
+  titleFontSize?: string;
+  descriptionColor?: string;
+  descriptionFontSize?: string;
+  featuresColor?: string;
+}

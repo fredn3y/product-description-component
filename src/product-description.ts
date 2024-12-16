@@ -1,12 +1,24 @@
-import type { ProductContent, ThemeName, ProductSchema, ProductData, ProductHighlight } from './types';
-import { themes } from './themes';
+import type { ProductContent, ProductData, GlobalStyles } from './types';
+import {
+  ErrorHandlerService,
+  LoggerService,
+  SchemaGeneratorService,
+  TemplateGeneratorService,
+  ThemeManagerService
+} from './services';
 
 export class ProductDescription extends HTMLElement {
   private _content: ProductContent;
   private _error: string | null;
-  private _theme: ThemeName;
+  private _theme: 'feature-heavy' | 'simple';
   private _shadow: ShadowRoot;
   private static globalStyles: string = '';
+
+  // Services
+  private logger: LoggerService;
+  private errorHandler: ErrorHandlerService;
+  private themeManager: ThemeManagerService;
+  private templateGenerator: TemplateGeneratorService;
 
   constructor() {
     super();
@@ -14,6 +26,13 @@ export class ProductDescription extends HTMLElement {
     this._content = {};
     this._error = null;
     this._theme = 'simple';
+
+    // Initialize services
+    this.logger = new LoggerService();
+    this.errorHandler = new ErrorHandlerService();
+    this.themeManager = new ThemeManagerService();
+    this.templateGenerator = new TemplateGeneratorService();
+
     this.render();
   }
 
@@ -23,7 +42,7 @@ export class ProductDescription extends HTMLElement {
 
   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
     if (oldValue !== newValue) {
-      if (name === 'theme' && this.isValidTheme(newValue)) {
+      if (name === 'theme' && this.themeManager.validateTheme(newValue)) {
         this._theme = newValue;
       } else {
         this._content[name] = newValue ?? undefined;
@@ -32,82 +51,8 @@ export class ProductDescription extends HTMLElement {
     }
   }
 
-  private isValidTheme(theme: string | null): theme is ThemeName {
-    return theme !== null && ['feature-heavy', 'simple'].includes(theme);
-  }
-
-  private generateSchema(): string {
-    const schema: ProductSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: this._content.title,
-      description: this._content.description,
-      image: this._content['image-url'],
-    };
-
-    if (this._content.features) {
-      try {
-        const features: string[] = JSON.parse(this._content.features);
-        if (features.length > 0) {
-          schema.additionalProperty = features.map(feature => ({
-            '@type': 'PropertyValue',
-            name: feature
-          }));
-        }
-      } catch (e) {
-        console.warn('Invalid features format');
-      }
-    }
-
-    if (this._content.price) {
-      schema.offers = {
-        '@type': 'Offer',
-        price: this._content.price,
-        priceCurrency: this._content.currency || 'USD'
-      };
-    }
-
-    return JSON.stringify(schema);
-  }
-
-  private generateFallbackContent(): string {
-    try {
-      const features: string[] = this._content.features ? JSON.parse(this._content.features) : [];
-      return `
-        <div class="product-seo-content">
-          <h2>${this._content.title || ''}</h2>
-          <p>${this._content.description || ''}</p>
-          ${features.length > 0 ? `
-            <ul>
-              ${features.map((feature: string) => `<li>${feature}</li>`).join('')}
-            </ul>
-          ` : ''}
-          ${this._content['image-url'] ? `
-            <img src="${this._content['image-url']}" 
-                 alt="${this._content.title || 'Product image'}"
-                 width="800" height="600"
-                 loading="lazy" />
-          ` : ''}
-        </div>
-      `;
-    } catch (e) {
-      return '';
-    }
-  }
-
-  private getThemeStyles(): string {
-    if (!this._theme || !themes[this._theme]) {
-      console.warn(`Theme "${this._theme}" not found, defaulting to simple theme`);
-      return themes['simple'];
-    }
-    return themes[this._theme];
-  }
-
-  private render(): void {
-    console.log('Rendering with theme:', this._theme);
-    console.log('Theme styles:', themes[this._theme]);
-    
-    const styles = `
+  private generateStyles(): string {
+    return `
       ${ProductDescription.globalStyles}
       :host {
         display: block;
@@ -135,153 +80,45 @@ export class ProductDescription extends HTMLElement {
         border-radius: 4px;
         margin: 10px 0;
       }
-      ${this.getThemeStyles()}
+      ${this.themeManager.getThemeStyles(this._theme)}
     `;
+  }
+
+  private render(): void {
+    this.logger.debug('Rendering with theme:', this._theme);
 
     try {
       const data: ProductData = this._content.data ? JSON.parse(this._content.data) : {};
-      console.log('Parsed data:', data);
+      this.logger.debug('Parsed data:', data);
       
-      // Add Schema.org markup
+      // Generate Schema.org markup
+      const schemaGenerator = new SchemaGeneratorService(this._content);
       const schemaScript = document.createElement('script');
       schemaScript.type = 'application/ld+json';
-      schemaScript.textContent = this.generateSchema();
+      schemaScript.textContent = schemaGenerator.generateProductSchema();
       document.head.appendChild(schemaScript);
 
-      // Generate the appropriate layout based on theme
-      let content = '';
-      if (this._theme === 'feature-heavy') {
-        console.log('Using feature-heavy template');
-        content = `
-          <article class="product-container" itemscope itemtype="https://schema.org/Product">
-            ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
-            
-            <!-- Introduction Section -->
-            <div class="product-intro" itemprop="description">
-              ${data.description || data.introduction || data.productName || this._content.description || ''}
-            </div>
+      // Generate content
+      const content = this.templateGenerator.generateFullTemplate(data);
+      this.logger.debug('Generated content:', content);
 
-            <!-- Product Highlights Section -->
-            <section class="product-highlights">
-              ${Object.entries(data.productHighlights || {}).map(([_key, highlight]: [string, ProductHighlight]) => `
-                <div class="highlight-block">
-                  <div class="highlight-content">
-                    <h3 class="highlight-title">${highlight.title}</h3>
-                    <p class="highlight-description">${highlight.description}</p>
-                  </div>
-                  ${highlight.image ? `
-                    <div class="highlight-image">
-                      <img src="${highlight.image}" alt="${highlight.title}" loading="lazy">
-                    </div>
-                  ` : ''}
-                </div>
-              `).join('')}
-            </section>
-
-            <!-- Features & Specifications Section -->
-            <section class="specifications-section">
-              <h2 class="section-title">Features & Specifications</h2>
-              <div class="specs-table">
-                ${Object.entries(data.specifications ?? {}).map(([key, value]) => `
-                  <div class="specs-row">
-                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
-                    <div class="specs-value">${value}</div>
-                  </div>
-                `).join('')}
-              </div>
-            </section>
-
-            <!-- Contents Section -->
-            <section class="contents-section">
-              <h2 class="section-title">Package Contents</h2>
-              <ul class="contents-list">
-                ${(data.contents?.colors ?? []).map((item: string) => `
-                  <li class="contents-item">${item}</li>
-                `).join('')}
-              </ul>
-            </section>
-          </article>
-        `;
-      } else {
-        console.log('Using simple template');
-        content = `
-          <article class="product-container" itemscope itemtype="https://schema.org/Product">
-            ${this._error ? `<div class="error-message">${this._error}</div>` : ''}
-            
-            <!-- Introduction Section -->
-            <div class="product-intro" itemprop="description">
-              ${data.description || data.introduction || data.productName || this._content.description || ''}
-            </div>
-
-            <!-- Product Highlights Section -->
-            <section class="product-highlights">
-              ${Object.entries(data.productHighlights || {}).map(([_key, highlight]: [string, ProductHighlight]) => `
-                <div class="highlight-block">
-                  <div class="highlight-content">
-                    <h3 class="highlight-title">${highlight.title}</h3>
-                    <p class="highlight-description">${highlight.description}</p>
-                  </div>
-                  ${highlight.image ? `
-                    <div class="highlight-image">
-                      <img src="${highlight.image}" alt="${highlight.title}" loading="lazy">
-                    </div>
-                  ` : ''}
-                </div>
-              `).join('')}
-            </section>
-
-            <!-- Features & Specifications Section -->
-            <section class="specifications-section">
-              <h2 class="section-title">Features & Specifications</h2>
-              <div class="specs-table">
-                ${Object.entries(data.specifications ?? {}).map(([key, value]) => `
-                  <div class="specs-row">
-                    <div class="specs-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
-                    <div class="specs-value">${value}</div>
-                  </div>
-                `).join('')}
-              </div>
-            </section>
-
-            <!-- Contents Section -->
-            <section class="contents-section">
-              <h2 class="section-title">Package Contents</h2>
-              <ul class="contents-list">
-                ${(data.contents?.colors ?? []).map((item: string) => `
-                  <li class="contents-item">${item}</li>
-                `).join('')}
-              </ul>
-            </section>
-          </article>
-        `;
-      }
-      console.log('Final generated content:', content);
-
+      // Update shadow DOM
       this._shadow.innerHTML = `
-        <style>${styles}</style>
-        ${this.generateFallbackContent()}
+        <style>${this.generateStyles()}</style>
+        ${schemaGenerator.generateFallbackContent()}
         ${content}
       `;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      this._error = `Error rendering product description: ${errorMessage}`;
-      console.error('Render error:', this._error);
+      this._error = this.errorHandler.handleRenderError(error);
       this._shadow.innerHTML = `
-        <style>${styles}</style>
+        <style>${this.generateStyles()}</style>
         <div class="error-message">${this._error}</div>
       `;
     }
   }
 
-  // Add static method to set global styles
-  static setGlobalStyles(styles: {
-    fontFamily?: string;
-    titleColor?: string;
-    titleFontSize?: string;
-    descriptionColor?: string;
-    descriptionFontSize?: string;
-    featuresColor?: string;
-  }): void {
+  // Static methods for global styles
+  static setGlobalStyles(styles: GlobalStyles): void {
     this.globalStyles = `
       :host {
         ${styles.fontFamily ? `--pd-font-family: ${styles.fontFamily};` : ''}
@@ -301,10 +138,8 @@ export class ProductDescription extends HTMLElement {
     });
   }
 
-  // Add static method to reset global styles
   static resetGlobalStyles(): void {
     this.globalStyles = '';
-    // Update all existing instances
     document.querySelectorAll('product-description').forEach((element) => {
       if (element instanceof ProductDescription) {
         element.render();
